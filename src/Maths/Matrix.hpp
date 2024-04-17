@@ -36,6 +36,7 @@ namespace rtx {
                         for (unsigned n = 0; n < N; n++) {
                             value += this->_matrix[m][n] * matrix.raw()[n][p];
                         }
+                        result.set(value, m, p);
                     }
                 }
                 return result;
@@ -45,4 +46,18 @@ namespace rtx {
         private:
             std::array<std::array<T, N>, M> _matrix;
     };
+}
+
+template<typename T, unsigned int M, unsigned int N>
+std::ostream& operator<<(std::ostream& stream, const rtx::Matrix<T, M, N>& matrix)
+{
+    stream << "[ ";
+    for (unsigned m = 0; m < M; m++) {
+        stream << "[ ";
+        for (unsigned n = 0; n < N; n++)
+            stream << matrix.raw()[m][n] << (n == N - 1 ? "" : ", ");
+        stream << " ], ";
+    }
+    stream << "]";
+    return stream;
 }

@@ -92,6 +92,31 @@ namespace rtx {
             static double dot(const Vector3& a, const Vector3& b) {
                 return a._x * b._x + a._y * b._y + a._z * b._z; }
 
+            template<typename U>
+            Vector3 rotate(const Vector3<U>& rotation) {
+                U rx[3][3] = {
+                    { 1.0, .0, .0 },
+                    { .0, std::cos(rotation.x()), -std::sin(rotation.x()) },
+                    { .0, std::sin(rotation.x()), std::cos(rotation.x()) },
+                };
+                U ry[3][3] = {
+                    { std::cos(rotation.y()), .0, std::sin(rotation.y()) },
+                    { .0, 1.0, .0 },
+                    { -std::sin(rotation.y()), .0, std::cos(rotation.y()) },
+                };
+                U rz[3][3] = {
+                    { std::cos(rotation.z()), -std::sin(rotation.z()), .0 },
+                    { std::sin(rotation.z()), std::cos(rotation.z()), .0 },
+                    { .0, .0, 1.0 },
+                };
+
+
+                Matrix<U, 3, 1> result = Matrix<U, 3, 3>(rx)
+                                        * Matrix<U, 3, 3>(ry)
+                                        * Matrix<U, 3, 3>(rz)
+                                        * this->matrix();
+                return Vector3<U>::fromMatrix(result);
+            }
 
         protected:
         private:
