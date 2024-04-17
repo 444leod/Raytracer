@@ -11,7 +11,7 @@ rtx::Ray::Ray()
 {
 }
 
-rtx::Ray::Ray(Vector3d origin, Vector3d direction)
+rtx::Ray::Ray(const Vector3d& origin, const Vector3d& direction)
     : _origin(origin), _direction(direction)
 {
 }

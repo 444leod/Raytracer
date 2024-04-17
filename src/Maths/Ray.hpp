@@ -13,7 +13,7 @@ namespace rtx {
     class Ray {
         public:
             Ray();
-            Ray(Vector3d origin, Vector3d direction);
+            Ray(const Vector3d& origin, const Vector3d& direction);
             Ray(const Ray& source);
             Ray(const Ray&& source);
             ~Ray();
