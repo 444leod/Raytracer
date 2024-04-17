@@ -5,28 +5,29 @@
 ## Makefile
 ##
 
-NAME = EXECUTABLE_NAME
+NAME	:= raytracer
 
-SRC = ./src/main.c
+SRC	:=	src/Main.cpp
 
-OBJ = $(SRC:.asm=.o)
+OBJ	:=	$(SRC:.cpp=.o)
 
-CC = gcc
+CC	:=	g++
 
-CFLAGS = -Wall -Wextra -Werror -Wpedantic
+CFLAGS	+=	-Wall -Wextra -Werror -Wpedantic
+CFLAGS	+=	-lsfml-graphics -lsfml-window -lsfml-system
 
-all: $(NAME)
+all:	$(NAME)
 
-$(NAME): $(OBJ)
+$(NAME):	$(OBJ)
 	$(CC) -o $(NAME) $(OBJ) $(CFLAGS)
 
 clean:
 	rm -f $(OBJ)
 
-fclean: clean
+fclean:	clean
 	rm -f $(NAME)
 
-re: fclean all
+re:	fclean	all
 
 tests_run: all
 
