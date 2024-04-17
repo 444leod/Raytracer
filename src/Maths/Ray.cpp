@@ -29,3 +29,13 @@ rtx::Ray::Ray(const Ray&& source)
 rtx::Ray::~Ray()
 {
 }
+
+rtx::Vector3d rtx::Ray::origin() const
+{
+    return this->_origin;
+}
+
+rtx::Vector3d rtx::Ray::direction() const
+{
+    return this->_direction;
+}
