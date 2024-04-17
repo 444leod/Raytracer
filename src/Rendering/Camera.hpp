@@ -16,16 +16,17 @@ namespace rtx
     class Camera {
         public:
             Camera();
-            Camera(Vector3d position, Vector3d rotation);
+            Camera(double fov, Vector3d position, Vector3d rotation);
             ~Camera();
 
             Vector3d forward() const;
             Vector3d position() const;
             Vector3d rotation() const;
-            Ray ray() const;
+            Ray ray(double x, double y) const;
 
         protected:
         private:
+            double _fov = 72.f;
             Vector3d _position;
             Vector3d _rotation;
     };
