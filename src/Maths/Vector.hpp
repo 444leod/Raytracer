@@ -61,11 +61,26 @@ namespace rtx {
             void operator/=(U factor) {
                 this->_x /= factor; this->_y /= factor; this->_z /= factor; }
 
-            double size() const; // Gets the length of the vector
-            Vector3 normalized() const; // Normalizes the vector
-            static Vector3 normalize(const Vector3& ); // Normalizes a vector
-            double dot(const Vector3& vector) const; // Computes the dot product with another vector
-            static double dot(const Vector3& a, const Vector3& b); // Computes the dot product of two vectors
+            // Gets the length of the vector
+            double size() const {
+                return std::sqrt(this->_x * this->_x + this->_y * this->_y + this->_z * this->_z); }
+
+            // Normalizes the vector
+            Vector3 normalized() const {
+                return *this / this->size(); }
+
+            // Normalizes a vector
+            template<typename U>
+            static Vector3 normalize(const Vector3<U>& vector) {
+                return vector / vector.size(); }
+
+            // Computes the dot product with another vector
+            double dot(const Vector3& vector) const {
+                return this->_x * vector._x + this->_y * vector._y + this->_z * vector._z; }
+
+            // Computes the dot product of two vectors
+            static double dot(const Vector3& a, const Vector3& b) {
+                return a._x * b._x + a._y * b._y + a._z * b._z; }
 
 
         protected:
