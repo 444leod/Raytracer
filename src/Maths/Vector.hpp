@@ -9,6 +9,7 @@
 
 #include <cmath>
 #include <iostream>
+#include "Matrix.hpp"
 
 namespace rtx {
     template<typename T>
@@ -16,8 +17,8 @@ namespace rtx {
         public:
             Vector3() = default;
             Vector3(T x, T y, T z) : _x(x), _y(y), _z(z) {}
-            Vector3(const Vector3& other) : _x(x), _y(y), _z(z) {}
-            Vector3(const Vector3&& other) : _x(x), _y(y), _z(z) {}
+            Vector3(const Vector3& other) : _x(other.x()), _y(other.y()), _z(other.z()) {}
+            Vector3(const Vector3&& other) : _x(other.x()), _y(other.y()), _z(other.z()) {}
             ~Vector3() = default;
 
             T x() const { return this->_x; }   // Getters
@@ -64,6 +65,15 @@ namespace rtx {
             // Gets the length of the vector
             double size() const {
                 return std::sqrt(this->_x * this->_x + this->_y * this->_y + this->_z * this->_z); }
+
+            Matrix<T, 3, 1> matrix() const {
+                T m[3][1] = {{this->_x},{this->_y},{this->_z}};
+                return Matrix<T, 3, 1>(m);
+            }
+
+            static Vector3<T> fromMatrix(Matrix<T, 3, 1> matrix) {
+                return Vector3<T>(matrix.raw()[0][0], matrix.raw()[1][0], matrix.raw()[2][0]);
+            }
 
             // Normalizes the vector
             Vector3 normalized() const {
