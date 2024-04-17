@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
 import sys, os, re, subprocess
 from subprocess import check_output
