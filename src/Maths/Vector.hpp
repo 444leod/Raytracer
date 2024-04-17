@@ -91,6 +91,11 @@ namespace rtx {
     };
 }
 
+#define Vector3d Vector3<double>
+#define Vector3i Vector3<int>
+#define Vector3f Vector3<float>
+#define Vector3u Vector3<unsigned int>
+
 template<typename T>
 std::ostream& operator<<(std::ostream& stream, const rtx::Vector3<T>& vector)
 {
