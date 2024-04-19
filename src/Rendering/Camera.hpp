@@ -20,13 +20,15 @@ namespace rtx
             ~Camera();
 
             Vector3d forward() const;
-            Vector3d position() const;
-            Vector3d rotation() const;
+            const Vector3d& position() const;
+            const Vector3d& rotation() const;
             Ray ray(double x, double y) const;
 
         protected:
         private:
             double _fov = 72.f;
+            double _planeWidth = .0;
+            double _planeHeight = .0;
             Vector3d _position;
             Vector3d _rotation;
     };
