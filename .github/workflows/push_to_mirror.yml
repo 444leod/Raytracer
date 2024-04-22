@@ -8,10 +8,16 @@ env:
 jobs:
   build:
     name: Test compilations
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container: epitechcontent/epitest-docker:latest
 
     steps:
+      - name: cleanup old checkout
+        run: sudo chmod +w -R ${GITHUB_WORKSPACE}; sudo rm -rf ${GITHUB_WORKSPACE}/*;
+
+      - name: Change ownership of workspace
+        run: sudo chown -R ubuntu:ubuntu ${GITHUB_WORKSPACE}
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -25,10 +31,16 @@ jobs:
 
   test:
     name: Run tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container: epitechcontent/epitest-docker:latest
 
     steps:
+      - name: cleanup old checkout
+        run: sudo chmod +w -R ${GITHUB_WORKSPACE}; sudo rm -rf ${GITHUB_WORKSPACE}/*;
+
+      - name: Change ownership of workspace
+        run: sudo chown -R ubuntu:ubuntu ${GITHUB_WORKSPACE}
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -39,10 +51,16 @@ jobs:
 
   check_coding_style:
     name: Check coding style
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container: ghcr.io/epitech/coding-style-checker:latest
 
     steps:
+      - name: cleanup old checkout
+        run: sudo chmod +w -R ${GITHUB_WORKSPACE}; sudo rm -rf ${GITHUB_WORKSPACE}/*;
+
+      - name: Change ownership of workspace
+        run: sudo chown -R ubuntu:ubuntu ${GITHUB_WORKSPACE}
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -69,9 +87,15 @@ jobs:
     name: Push to mirror
     needs: [build, test, check_coding_style]
     if: ${{ github.ref_name == 'main' && github.event_name == 'push' }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
+      - name: cleanup old checkout
+        run: sudo chmod +w -R ${GITHUB_WORKSPACE}; sudo rm -rf ${GITHUB_WORKSPACE}/*;
+
+      - name: Change ownership of workspace
+        run: sudo chown -R ubuntu:ubuntu ${GITHUB_WORKSPACE}
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
