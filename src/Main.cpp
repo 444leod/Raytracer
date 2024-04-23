@@ -16,9 +16,23 @@ int main(
     [[maybe_unused]] char **env
 )
 {
-    rtx::Camera cam = rtx::Camera(72, rtx::Vector3d(), rtx::Vector3d(.0, .0, M_PI));
+    rtx::Camera cam = rtx::Camera(M_PI_2, rtx::Vector3d(), rtx::Vector3d(.0, .0, M_PI));
     rtx::Scene scene(cam);
 
-    scene.renderImage(600, 600);
+    sf::RenderWindow win(sf::VideoMode(600, 600), "Window");
+    sf::Image img = scene.renderImage(600, 600);
+    sf::Texture tex; tex.loadFromImage(img);
+    sf::Sprite sprite(tex);
+
+    while (win.isOpen()) {
+        sf::Event e;
+        while (win.pollEvent(e))
+            if (e.type == sf::Event::Closed)
+                win.close();
+        win.clear();
+        win.draw(sprite);
+        win.display();
+    }
+
     return 0;
 }
