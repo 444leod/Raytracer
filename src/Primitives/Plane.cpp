@@ -26,8 +26,8 @@ bool rtx::Plane::hits(const Ray& ray) const
     Vector3d origin = this->_position - ray.origin();
     double dot = this->_normal.dot(ray.direction().normalized());
 
-    if (dot <= 0)
+    if (dot >= 0)
         return false;
     k = origin.dot(this->_normal) / dot;
-    return true;
+    return k <= 0;
 }
