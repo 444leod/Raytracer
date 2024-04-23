@@ -12,12 +12,6 @@ jobs:
     container: epitechcontent/epitest-docker:latest
 
     steps:
-      - name: cleanup old checkout
-        run: sudo chmod +w -R ${GITHUB_WORKSPACE}; sudo rm -rf ${GITHUB_WORKSPACE}/*;
-
-      - name: Change ownership of workspace
-        run: sudo chown -R ubuntu:ubuntu ${GITHUB_WORKSPACE}
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -35,12 +29,6 @@ jobs:
     container: epitechcontent/epitest-docker:latest
 
     steps:
-      - name: cleanup old checkout
-        run: sudo chmod +w -R ${GITHUB_WORKSPACE}; sudo rm -rf ${GITHUB_WORKSPACE}/*;
-
-      - name: Change ownership of workspace
-        run: sudo chown -R ubuntu:ubuntu ${GITHUB_WORKSPACE}
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -55,12 +43,6 @@ jobs:
     container: ghcr.io/epitech/coding-style-checker:latest
 
     steps:
-      - name: cleanup old checkout
-        run: sudo chmod +w -R ${GITHUB_WORKSPACE}; sudo rm -rf ${GITHUB_WORKSPACE}/*;
-
-      - name: Change ownership of workspace
-        run: sudo chown -R ubuntu:ubuntu ${GITHUB_WORKSPACE}
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
