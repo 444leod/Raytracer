@@ -31,8 +31,10 @@ sf::Image rtx::Scene::render(std::uint32_t width, std::uint32_t height) const
             const Ray& ray = this->_camera.ray(u, v);
 
             auto hit = this->simulateRay(ray);
-            if (hit.has_value())
-                image.setPixel(w, h, hit.value().color().asSf());
+            if (!hit.has_value()) continue;
+            auto color = hit.value().color();
+            auto light = this->enlighted(hit.value().point()) ? 1.0 : 0.2;
+            image.setPixel(w, h, (color * light).asSf());
         }
     }
     return image;
@@ -46,4 +48,17 @@ std::optional<rtx::HitResult> rtx::Scene::simulateRay(const rtx::Ray& ray) const
             return hit.value();
     }
     return std::nullopt;
+}
+
+bool rtx::Scene::enlighted(const Vector3d& point) const
+{
+    for (const auto& light : this->_lights) {
+        for (const auto& prim : this->_primitives) {
+            auto ray = Ray(point, (light.position() - point));
+            auto hit = prim->hits(ray);
+            if (hit.has_value())
+                return false;
+        }
+    }
+    return true;
 }

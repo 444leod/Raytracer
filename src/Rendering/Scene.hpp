@@ -26,7 +26,8 @@ namespace rtx {
             const Camera& camera() { return _camera; }
 
             sf::Image render(std::uint32_t width, std::uint32_t height) const;
-            std::optional<rtx::HitResult> simulateRay(const rtx::Ray& ray) const;
+            std::optional<HitResult> simulateRay(const rtx::Ray& ray) const;
+            bool enlighted(const Vector3d& point) const;
 
         protected:
         private:
