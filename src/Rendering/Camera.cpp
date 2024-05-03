@@ -44,7 +44,7 @@ rtx::Ray rtx::Camera::ray(double x, double y) const
 {
     double u = (x - 0.5) * 2.0 * _planeWidth;
     double v = (y - 0.5) * 2.0 * _planeHeight;
-    Vector3d dir = Vector3d(1.0,  u, v).normalized().rotate(this->_rotation);
+    Vector3d dir = Vector3d(1.0,  u, -v).normalized().rotate(this->_rotation);
     Ray ret(this->_position, dir);
     return ret;
 }

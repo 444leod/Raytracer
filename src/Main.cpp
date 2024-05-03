@@ -16,11 +16,11 @@ int main(
     [[maybe_unused]] char **env
 )
 {
-    rtx::Camera cam = rtx::Camera(M_PI_2, rtx::Vector3d(), rtx::Vector3d(.0, .0, M_PI));
+    rtx::Camera cam = rtx::Camera(M_PI_2, rtx::Vector3d(), rtx::Vector3d(.0, .0, .0));
     rtx::Scene scene(cam);
 
     sf::RenderWindow win(sf::VideoMode(600, 600), "Window");
-    sf::Image img = scene.renderImage(600, 600);
+    sf::Image img = scene.render(600, 600);
     sf::Texture tex; tex.loadFromImage(img);
     sf::Sprite sprite(tex);
 
