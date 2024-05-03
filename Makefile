@@ -21,7 +21,8 @@ CC	:=	g++
 
 CXXFLAGS	+=	-Wall -Wextra -Werror -Wpedantic
 CXXFLAGS	+=	-lsfml-graphics -lsfml-window -lsfml-system
-CXXFLAGS 	+=	-I./src/Maths/ -I./src/Rendering -I./src/Primitives -I./src/Lighting
+CXXFLAGS 	+=	-I./src/Maths -I./src/Rendering \
+				-I./src/Primitives -I./src/Lighting
 
 all:	$(NAME)
 
