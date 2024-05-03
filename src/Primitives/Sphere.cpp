@@ -25,7 +25,7 @@ rtx::Sphere::Sphere(Color color, Vector3d position, double radius)
  *  radius² = (o.x + d.x * k)² + (o.y + d.y * k)² + (o.z + d.z * k)²
  *  <=> (o.x² + 2*o.x*d.x*k + (d.x*k)²) +
  *      (o.y² + 2*o.y*d.y*k + (d.y*k)²) +
- *      (o.y² + 2*o.y*d.y*k + (d.y*k)²) -
+ *      (o.z² + 2*o.z*d.z*k + (d.z*k)²) -
  *      radius²
  *      = 0
  *
@@ -42,15 +42,28 @@ rtx::Sphere::Sphere(Color color, Vector3d position, double radius)
  *  It can be solved usic quadratic formula:
  *      D = b² - 4 * a * c
 */
-bool rtx::Sphere::hits(const rtx::Ray& ray) const
+std::optional<rtx::HitResult> rtx::Sphere::hits(const rtx::Ray& ray) const
 {
     auto r = this->_radius;
     auto o = ray.origin() - this->_position;
     auto d = ray.direction();
 
-    double a = d.x() *d.x() + d.y() * d.y() + d.z() * d.z();
-    double b = 2.0 * (o.x() * d.x() + o.y() * d.y() + o.z() * d.z());
-    double c = o.x() * o.x() + o.y() * o.y() + o.z() * o.z() - r * r;
+    double a = d.dot(d);
+    double b = 2.0 * o.dot(d);
+    double c = o.dot(o) - r * r;
+    double D = b * b - 4.0 * a * c;
 
-    return b * b - 4.0 * a * c >= 0;
+    if (D < .0)
+        return std::nullopt;
+
+    double k1 = (-b - std::sqrt(D)) / (2 * a);
+    double k2 = (-b + std::sqrt(D)) / (2 * a);
+    double nearest = std::min(k1, k2);
+    double furthest = std::max(k1, k2);
+
+    if (nearest < .001 && furthest < .001)
+        return std::nullopt;
+    double k = (nearest > .001) ? nearest : furthest;
+    auto p = ray.origin() + ray.direction().normalized() * k;
+    return HitResult(p, (p - this->_position).normalized(), this->_color);
 }
