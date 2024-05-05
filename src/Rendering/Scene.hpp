@@ -27,7 +27,7 @@ namespace rtx {
 
             sf::Image render(std::uint32_t width, std::uint32_t height) const;
             std::optional<HitResult> simulateRay(const rtx::Ray& ray) const;
-            bool enlighted(const Vector3d& point) const;
+            Vector3d enlightment(const Vector3d& point) const;
 
         protected:
         private:
