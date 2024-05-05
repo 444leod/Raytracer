@@ -29,5 +29,6 @@ bool rtx::Plane::hits(const Ray& ray) const
     if (dot <= 0)
         return false;
     k = origin.dot(this->_normal) / dot;
+    (void)k;
     return true;
 }
