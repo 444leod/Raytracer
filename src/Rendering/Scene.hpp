@@ -25,7 +25,7 @@ namespace rtx {
             const Camera& camera() const { return _camera; }
             const Camera& camera() { return _camera; }
 
-            sf::Image render(std::uint32_t width, std::uint32_t height) const;
+            sf::Image render() const;
             std::optional<HitResult> simulateRay(const rtx::Ray& ray) const;
             Vector3d enlightment(const Vector3d& point) const;
 

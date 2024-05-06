@@ -19,8 +19,10 @@ rtx::Scene::Scene(const Camera& camera)
     _lights.push_back(Light(Vector3d(8, 0, 8), 50.0));
 }
 
-sf::Image rtx::Scene::render(std::uint32_t width, std::uint32_t height) const
+sf::Image rtx::Scene::render() const
 {
+    auto width = this->_camera.settings().width();
+    auto height = this->_camera.settings().height();
     auto image = sf::Image();
     image.create(width, height);
 
@@ -31,10 +33,11 @@ sf::Image rtx::Scene::render(std::uint32_t width, std::uint32_t height) const
             const Ray& ray = this->_camera.ray(u, v);
 
             auto hit = this->simulateRay(ray);
-            if (!hit.has_value()) continue;
+            if (!hit.has_value())
+                continue;
             auto color = hit.value().color();
             auto light_dir = this->enlightment(hit.value().point());
-            auto light_force = light_dir.dot(hit.value().bounce());
+            auto light_force = light_dir.dot(hit.value().normal());
             image.setPixel(w, h, (color * light_force).asSf());
         }
     }
@@ -57,10 +60,12 @@ rtx::Vector3d rtx::Scene::enlightment(const Vector3d& point) const
         Vector3d dir = (light.position() - point).normalized();
         bool obstructed = false;
         std::optional<HitResult> result;
+
         for (const auto& prim : this->_primitives) {
             auto ray = Ray(point, dir);
             auto hit = prim->hits(ray);
-            if (!hit.has_value()) continue;
+            if (!hit.has_value())
+                continue;
             obstructed = true;
             break;
         }
