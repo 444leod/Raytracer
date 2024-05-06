@@ -27,24 +27,51 @@ sf::Image rtx::Scene::render() const
     image.create(width, height);
 
     for (std::uint32_t h = 0; h < height; h++) {
-        double v = (double)h / (double)height;
+        double v = h / static_cast <double>(height);
         for (std::uint32_t w = 0; w < width; w++) {
-            double u = (double)w / (double)width;
+            double u = w / static_cast <double>(width);
             const Ray& ray = this->_camera.ray(u, v);
 
-            auto hit = this->simulateRay(ray);
+            auto hit = this->hitresult(ray);
             if (!hit.has_value())
                 continue;
-            auto color = hit.value().color();
-            auto light_dir = this->enlightment(hit.value().point());
-            auto light_force = light_dir.dot(hit.value().normal());
-            image.setPixel(w, h, (color * light_force).asSf());
+            auto color = this->hitcolor(hit.value());
+            image.setPixel(w, h, color.asSf());
         }
     }
     return image;
 }
 
-std::optional<rtx::HitResult> rtx::Scene::simulateRay(const rtx::Ray& ray) const
+sf::Image& rtx::Scene::render(sf::Image& image, std::uint32_t batch_size) const
+{
+    auto width = this->_camera.settings().width();
+    auto height = this->_camera.settings().height();
+
+    for (std::uint32_t i = 0; i < batch_size; i++) {
+            auto w = std::rand() % width;
+            auto h = std::rand() % height;
+            double u = w / static_cast <double>(width);
+            double v = h / static_cast <double>(height);
+            const Ray& ray = this->_camera.ray(u, v);
+
+            auto hit = this->hitresult(ray);
+            if (!hit.has_value())
+                continue;
+            auto color = this->hitcolor(hit.value());
+            image.setPixel(w, h, color.asSf());
+    }
+    return image;
+}
+
+rtx::Color rtx::Scene::hitcolor(const rtx::HitResult& hit) const
+{
+    auto color = hit.color();
+    auto light_dir = this->enlightment(hit.point());
+    auto light_force = light_dir.dot(hit.normal());
+    return color * light_force;
+}
+
+std::optional<rtx::HitResult> rtx::Scene::hitresult(const rtx::Ray& ray) const
 {
     for (const auto& prim : this->_primitives) {
         auto hit = prim->hits(ray);

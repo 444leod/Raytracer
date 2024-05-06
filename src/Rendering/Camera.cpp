@@ -10,7 +10,7 @@
 rtx::Camera::Camera(const RenderSettings& settings, Vector3d position, Vector3d rotation = Vector3d())
     : _settings(settings), _position(position), _rotation(rotation)
 {
-    double ratio = this->_settings.width() / this->_settings.height();
+    double ratio = this->_settings.width() / static_cast <double>(this->_settings.height());
     _planeWidth = tan(this->_settings.fov() / 2.0) * ratio;
     _planeHeight = tan(this->_settings.fov() / 2.0);
 }
