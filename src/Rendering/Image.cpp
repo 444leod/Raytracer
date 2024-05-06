@@ -32,7 +32,6 @@ void rtx::Image::set(uint32_t x, uint32_t y, Color color)
 
 void rtx::Image::clear(Color color)
 {
-    std::cout << "Clear called" << std::endl;
     for (uint32_t i = 0; i < this->_width * this->_height * 4; i += 4) {
         this->_array[i + 0] = color.r;
         this->_array[i + 1] = color.g;

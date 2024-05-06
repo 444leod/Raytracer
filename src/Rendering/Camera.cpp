@@ -47,3 +47,14 @@ rtx::Ray rtx::Camera::ray(double x, double y) const
     Ray ret(this->_position, dir);
     return ret;
 }
+
+void rtx::Camera::rotate(const Vector3d& rotation)
+{
+    this->_rotation += rotation;
+}
+
+void rtx::Camera::move(const Vector3d& movement)
+{
+    this->_position += movement.rotate(this->_rotation);
+}
+

@@ -40,6 +40,8 @@ namespace rtx
             const Vector3d& rotation() const;
             const RenderSettings& settings() const;
             Ray ray(double x, double y) const;
+            void rotate(const Vector3d& rotation);
+            void move(const Vector3d& movement);
 
         protected:
         private:

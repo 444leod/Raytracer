@@ -25,13 +25,24 @@ int main(
     rtx::Image image = rtx::Image(settings.width(), settings.height());
 
     while (win.isOpen()) {
-        scene.render(image, 1000);
         sf::Event e;
 
-        while (win.pollEvent(e)) {
+        while (win.pollEvent(e))
             if (e.type == sf::Event::Closed) win.close();
-            if (e.type == sf::Event::KeyReleased && e.key.code == sf::Keyboard::A) image.clear();
-        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            image.clear(); scene.camera().rotate(rtx::Vector3d(.0, .0, .1)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            image.clear(); scene.camera().rotate(rtx::Vector3d(.0, .0, -.1)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+            image.clear(); scene.camera().move(rtx::Vector3d(.1, .0, .0)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            image.clear(); scene.camera().move(rtx::Vector3d(-.1, -.0, .0)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+            image.clear(); scene.camera().move(rtx::Vector3d(.0, -.1, .0)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            image.clear(); scene.camera().move(rtx::Vector3d(.0, .1, .0)); }
+
+        scene.render(image, 2500);
         win.clear();
         win.draw(image.drawable());
         win.display();

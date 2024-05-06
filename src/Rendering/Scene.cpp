@@ -7,7 +7,7 @@
 
 #include "Scene.hpp"
 
-rtx::Scene::Scene(const Camera& camera)
+rtx::Scene::Scene(Camera& camera)
     : _camera(camera)
 {
     _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 100), Vector3d(9, 0, 2.5), 0.5));

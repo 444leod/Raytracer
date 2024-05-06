@@ -19,11 +19,11 @@
 namespace rtx {
     class Scene {
         public:
-            Scene(const Camera& camera);
+            Scene(Camera& camera);
             ~Scene() = default;
 
             const Camera& camera() const { return _camera; }
-            const Camera& camera() { return _camera; }
+            Camera& camera() { return _camera; }
 
             Image render() const;
             Image& render(Image& image, uint32_t batch_size) const;
@@ -35,6 +35,6 @@ namespace rtx {
         private:
             std::vector<std::shared_ptr<IPrimitive>> _primitives;
             std::vector<Light> _lights;
-            const Camera& _camera;
+            Camera& _camera;
     };
 }
