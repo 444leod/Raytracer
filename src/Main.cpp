@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "Vector.hpp"
+#include "Camera.hpp"
 
 int main(
     [[maybe_unused]] int ac,
@@ -14,12 +15,7 @@ int main(
     [[maybe_unused]] char **env
 )
 {
-    rtx::Vector3 v(.1, .2, .3);
-    rtx::Vector3 u(1, 2, 3);
-
-    u *= v.normalized().size();
-    v *= u.size();
-    std::cout << v << std::endl;
-    std::cout << u << std::endl;
+    rtx::Camera cam = rtx::Camera(72, rtx::Vector3d(), rtx::Vector3d(.0, .0, M_PI));
+    std::cout << cam.forward() << std::endl;
     return 0;
 }

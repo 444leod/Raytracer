@@ -9,6 +9,7 @@
 
 #include <cmath>
 #include <iostream>
+#include "Matrix.hpp"
 
 namespace rtx {
     template<typename T>
@@ -16,8 +17,8 @@ namespace rtx {
         public:
             Vector3() = default;
             Vector3(T x, T y, T z) : _x(x), _y(y), _z(z) {}
-            Vector3(const Vector3& other) : _x(x), _y(y), _z(z) {}
-            Vector3(const Vector3&& other) : _x(x), _y(y), _z(z) {}
+            Vector3(const Vector3& other) : _x(other.x()), _y(other.y()), _z(other.z()) {}
+            Vector3(const Vector3&& other) : _x(other.x()), _y(other.y()), _z(other.z()) {}
             ~Vector3() = default;
 
             T x() const { return this->_x; }   // Getters
@@ -65,6 +66,15 @@ namespace rtx {
             double size() const {
                 return std::sqrt(this->_x * this->_x + this->_y * this->_y + this->_z * this->_z); }
 
+            Matrix<T, 3, 1> matrix() const {
+                T m[3][1] = {{this->_x},{this->_y},{this->_z}};
+                return Matrix<T, 3, 1>(m);
+            }
+
+            static Vector3<T> fromMatrix(Matrix<T, 3, 1> matrix) {
+                return Vector3<T>(matrix.raw()[0][0], matrix.raw()[1][0], matrix.raw()[2][0]);
+            }
+
             // Normalizes the vector
             Vector3 normalized() const {
                 return *this / this->size(); }
@@ -82,6 +92,31 @@ namespace rtx {
             static double dot(const Vector3& a, const Vector3& b) {
                 return a._x * b._x + a._y * b._y + a._z * b._z; }
 
+            template<typename U>
+            Vector3 rotate(const Vector3<U>& rotation) {
+                U rx[3][3] = {
+                    { 1.0, .0, .0 },
+                    { .0, std::cos(rotation.x()), -std::sin(rotation.x()) },
+                    { .0, std::sin(rotation.x()), std::cos(rotation.x()) },
+                };
+                U ry[3][3] = {
+                    { std::cos(rotation.y()), .0, std::sin(rotation.y()) },
+                    { .0, 1.0, .0 },
+                    { -std::sin(rotation.y()), .0, std::cos(rotation.y()) },
+                };
+                U rz[3][3] = {
+                    { std::cos(rotation.z()), -std::sin(rotation.z()), .0 },
+                    { std::sin(rotation.z()), std::cos(rotation.z()), .0 },
+                    { .0, .0, 1.0 },
+                };
+
+
+                Matrix<U, 3, 1> result = Matrix<U, 3, 3>(rx)
+                                        * Matrix<U, 3, 3>(ry)
+                                        * Matrix<U, 3, 3>(rz)
+                                        * this->matrix();
+                return Vector3<U>::fromMatrix(result);
+            }
 
         protected:
         private:
@@ -90,6 +125,11 @@ namespace rtx {
             T _z = .0;
     };
 }
+
+#define Vector3d Vector3<double>
+#define Vector3i Vector3<int>
+#define Vector3f Vector3<float>
+#define Vector3u Vector3<unsigned int>
 
 template<typename T>
 std::ostream& operator<<(std::ostream& stream, const rtx::Vector3<T>& vector)
