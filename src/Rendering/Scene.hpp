@@ -26,7 +26,7 @@ namespace rtx {
             const Camera& camera() { return _camera; }
 
             sf::Image render() const;
-            sf::Image& render(sf::Image& image, std::uint32_t batch_size) const;
+            sf::Image& render(sf::Image& image, uint32_t batch_size) const;
             Color hitcolor(const rtx::HitResult& hit) const;
             std::optional<HitResult> hitresult(const rtx::Ray& ray) const;
             Vector3d enlightment(const Vector3d& point) const;

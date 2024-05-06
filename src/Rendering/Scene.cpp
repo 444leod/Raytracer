@@ -26,9 +26,9 @@ sf::Image rtx::Scene::render() const
     auto image = sf::Image();
     image.create(width, height);
 
-    for (std::uint32_t h = 0; h < height; h++) {
+    for (uint32_t h = 0; h < height; h++) {
         double v = h / static_cast <double>(height);
-        for (std::uint32_t w = 0; w < width; w++) {
+        for (uint32_t w = 0; w < width; w++) {
             double u = w / static_cast <double>(width);
             const Ray& ray = this->_camera.ray(u, v);
 
@@ -42,12 +42,12 @@ sf::Image rtx::Scene::render() const
     return image;
 }
 
-sf::Image& rtx::Scene::render(sf::Image& image, std::uint32_t batch_size) const
+sf::Image& rtx::Scene::render(sf::Image& image, uint32_t batch_size) const
 {
     auto width = this->_camera.settings().width();
     auto height = this->_camera.settings().height();
 
-    for (std::uint32_t i = 0; i < batch_size; i++) {
+    for (uint32_t i = 0; i < batch_size; i++) {
             auto w = std::rand() % width;
             auto h = std::rand() % height;
             double u = w / static_cast <double>(width);

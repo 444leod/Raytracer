@@ -16,17 +16,17 @@ namespace rtx
 {
     class RenderSettings {
         public:
-            RenderSettings(std::uint32_t width, std::uint32_t height, double fov)
+            RenderSettings(uint32_t width, uint32_t height, double fov)
                 : _width(width), _height(height), _fov(fov) {};
             ~RenderSettings() = default;
-            std::uint32_t width() const { return _width; }
-            std::uint32_t height() const { return _height; }
+            uint32_t width() const { return _width; }
+            uint32_t height() const { return _height; }
             double fov() const { return _fov; }
             void setFov(double fov) { this->_fov = fov; }
             sf::VideoMode toSf() const { return sf::VideoMode(this->_width, this->_height); }
         private:
-            std::uint32_t _width;
-            std::uint32_t _height;
+            uint32_t _width;
+            uint32_t _height;
             double _fov;
     };
 
