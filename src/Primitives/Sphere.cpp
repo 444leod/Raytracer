@@ -65,5 +65,6 @@ std::optional<rtx::HitResult> rtx::Sphere::hits(const rtx::Ray& ray) const
         return std::nullopt;
     double k = (nearest > .001) ? nearest : furthest;
     auto p = ray.origin() + ray.direction().normalized() * k;
-    return HitResult(p, (p - this->_position).normalized(), this->_color);
+    auto normal = (p - this->_position).normalized();
+    return HitResult(p, normal, this->_color);
 }

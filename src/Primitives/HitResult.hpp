@@ -14,26 +14,26 @@ namespace rtx {
     class HitResult {
         public:
             HitResult() = default;
-            HitResult(const Vector3d& point, const Vector3d& bounce, const Color& color) :
-                _point(point), _bounce(bounce), _color(color) {};
+            HitResult(const Vector3d& point, const Vector3d& normal, const Color& color) :
+                _point(point), _normal(normal), _color(color) {};
             HitResult(const HitResult& source) :
-                _point(source.point()), _bounce(source.bounce()), _color(source.color()) {};
+                _point(source.point()), _normal(source.normal()), _color(source.color()) {};
             ~HitResult() = default;
 
             const Vector3d& point() const { return this->_point; }
-            const Vector3d& bounce() const { return this->_bounce; }
+            const Vector3d& normal() const { return this->_normal; }
             const Color& color() const { return this->_color; }
             const HitResult& operator=(const HitResult& other) {
                 this->_point = other.point();
                 this->_color = other.color();
-                this->_bounce = other.bounce();
+                this->_normal = other.normal();
                 return *this;
             }
 
         protected:
         private:
             Vector3d _point;
-            Vector3d _bounce;
+            Vector3d _normal;
             Color _color;
     };
 }

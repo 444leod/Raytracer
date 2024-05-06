@@ -28,7 +28,7 @@ std::optional<rtx::HitResult> rtx::Plane::hits(const Ray& ray) const
         float k = (this->_position - ray.origin()).dot(this->normal()) / denom;
         if (k < 0) return std::nullopt;
         auto p = ray.origin() + ray.direction() * k;
-        return HitResult(p, (p - this->_position).normalized(), this->_color);
+        return HitResult(p, this->_normal, this->_color);
     }
     return std::nullopt;
 }

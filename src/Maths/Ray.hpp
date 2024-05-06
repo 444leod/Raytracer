@@ -19,6 +19,7 @@ namespace rtx {
             ~Ray();
             Vector3d origin() const;
             Vector3d direction() const;
+            Ray bounce(const Vector3d& point, const Vector3d& normal) const;
 
         protected:
         private:
