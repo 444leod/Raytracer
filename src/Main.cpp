@@ -22,19 +22,18 @@ int main(
     rtx::Scene scene(cam);
 
     sf::RenderWindow win(settings.toSf(), "Window");
-    sf::Image img; img.create(settings.width(), settings.height());
+    rtx::Image image = rtx::Image(settings.width(), settings.height());
 
     while (win.isOpen()) {
-        scene.render(img, 1000);
-        sf::Texture tex; tex.loadFromImage(img);
-        sf::Sprite sprite(tex);
+        scene.render(image, 1000);
         sf::Event e;
 
-        while (win.pollEvent(e))
-            if (e.type == sf::Event::Closed)
-                win.close();
+        while (win.pollEvent(e)) {
+            if (e.type == sf::Event::Closed) win.close();
+            if (e.type == sf::Event::KeyReleased && e.key.code == sf::Keyboard::A) image.clear();
+        }
         win.clear();
-        win.draw(sprite);
+        win.draw(image.drawable());
         win.display();
     }
 

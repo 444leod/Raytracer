@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>
 
+#include "Image.hpp"
 #include "Camera.hpp"
 #include "Sphere.hpp"
 #include "Plane.hpp"
@@ -25,8 +25,8 @@ namespace rtx {
             const Camera& camera() const { return _camera; }
             const Camera& camera() { return _camera; }
 
-            sf::Image render() const;
-            sf::Image& render(sf::Image& image, uint32_t batch_size) const;
+            Image render() const;
+            Image& render(Image& image, uint32_t batch_size) const;
             Color hitcolor(const rtx::HitResult& hit) const;
             std::optional<HitResult> hitresult(const rtx::Ray& ray) const;
             Vector3d enlightment(const Vector3d& point) const;

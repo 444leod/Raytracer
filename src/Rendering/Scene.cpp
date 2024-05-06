@@ -19,12 +19,11 @@ rtx::Scene::Scene(const Camera& camera)
     _lights.push_back(Light(Vector3d(8, 0, 8), 50.0));
 }
 
-sf::Image rtx::Scene::render() const
+rtx::Image rtx::Scene::render() const
 {
     auto width = this->_camera.settings().width();
     auto height = this->_camera.settings().height();
-    auto image = sf::Image();
-    image.create(width, height);
+    auto image = Image(width, height);
 
     for (uint32_t h = 0; h < height; h++) {
         double v = h / static_cast <double>(height);
@@ -36,13 +35,13 @@ sf::Image rtx::Scene::render() const
             if (!hit.has_value())
                 continue;
             auto color = this->hitcolor(hit.value());
-            image.setPixel(w, h, color.asSf());
+            image.set(w, h, color);
         }
     }
     return image;
 }
 
-sf::Image& rtx::Scene::render(sf::Image& image, uint32_t batch_size) const
+rtx::Image& rtx::Scene::render(Image& image, uint32_t batch_size) const
 {
     auto width = this->_camera.settings().width();
     auto height = this->_camera.settings().height();
@@ -58,7 +57,7 @@ sf::Image& rtx::Scene::render(sf::Image& image, uint32_t batch_size) const
             if (!hit.has_value())
                 continue;
             auto color = this->hitcolor(hit.value());
-            image.setPixel(w, h, color.asSf());
+            image.set(w, h, color);
     }
     return image;
 }
