@@ -7,14 +7,15 @@
 
 NAME	:= raytracer
 
-SRC	:=	src/Main.cpp
+SRC	:=	src/Main.cpp	\
 
 OBJ	:=	$(SRC:.cpp=.o)
 
 CC	:=	g++
 
-CFLAGS	+=	-Wall -Wextra -Werror -Wpedantic
-CFLAGS	+=	-lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS	+=	-Wall -Wextra -Werror -Wpedantic
+CXXFLAGS	+=	-lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS 	+=	-I./src/Maths/
 
 all:	$(NAME)
 
