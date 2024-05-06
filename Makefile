@@ -10,6 +10,8 @@ NAME	:= raytracer
 SRC	:=	src/Main.cpp	\
 		src/Maths/Ray.cpp	\
 		src/Rendering/Camera.cpp	\
+		src/Primitives/Sphere.cpp	\
+		src/Primitives/Plane.cpp	\
 
 OBJ	:=	$(SRC:.cpp=.o)
 
@@ -17,12 +19,12 @@ CC	:=	g++
 
 CXXFLAGS	+=	-Wall -Wextra -Werror -Wpedantic
 CXXFLAGS	+=	-lsfml-graphics -lsfml-window -lsfml-system
-CXXFLAGS 	+=	-I./src/Maths/ -I./src/Rendering
+CXXFLAGS 	+=	-I./src/Maths/ -I./src/Rendering -I./src/Primitives
 
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(CFLAGS)
+	$(CC) -o $(NAME) $(OBJ) $(CXXFLAGS)
 
 clean:
 	rm -f $(OBJ)
