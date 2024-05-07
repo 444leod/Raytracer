@@ -11,8 +11,13 @@ rtx::Parser::Parser()
 {
 }
 
-void rtx::Parser::runParser([[maybe_unused]] std::string file)
+void rtx::Parser::runParser([[maybe_unused]] std::string fileName)
 {
+    if (fileName.empty())
+        throw ParserException("No filename set");
+    std::ifstream file(fileName);
+    if (!file.is_open())
+        throw ParserException("Could not open file");
 }
 
 std::vector<std::shared_ptr<rtx::IPrimitive>> rtx::Parser::getPrimitives() const
