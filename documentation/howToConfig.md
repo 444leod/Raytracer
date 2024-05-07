@@ -1,0 +1,1 @@
+# Guide on the config syntax for the raytracer
