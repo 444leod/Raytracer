@@ -9,6 +9,7 @@ NAME	:= raytracer
 
 SRC	:=	src/Main.cpp	\
 		src/Maths/Ray.cpp	\
+		src/Parser/Parser.cpp	\
 		src/Rendering/Camera.cpp	\
 		src/Primitives/Sphere.cpp	\
 		src/Primitives/Plane.cpp	\

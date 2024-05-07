@@ -21,3 +21,6 @@ plane:
 position = double double double
 rgb = uint8 uint8 uint8 (0 to 255)
 normal = double double double
+
+# Default values:
+camera:
