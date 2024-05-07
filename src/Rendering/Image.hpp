@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <optional>
 #include <cstdint>
 #include <cstring>
 #include "Color.hpp"
@@ -23,12 +24,15 @@ namespace rtx {
             uint32_t width() const;
             uint32_t height() const;
             uint8_t *array() const;
+            std::optional<uint32_t> randindex();
 
         protected:
         private:
-            uint32_t _width;
-            uint32_t _height;
-            uint8_t *_array;
+            uint32_t _width = 0;
+            uint32_t _height = 0;
+            uint8_t *_array = nullptr;
             sf::Texture _tex;
+            std::vector<uint32_t> _unrendered = {};
+            uint32_t _unrendered_idx = 0;
     };
 }

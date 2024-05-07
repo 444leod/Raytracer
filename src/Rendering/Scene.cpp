@@ -10,7 +10,7 @@
 rtx::Scene::Scene(Camera& camera)
     : _camera(camera)
 {
-    _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 100), Vector3d(9, 0, 2.5), 0.5));
+    //_primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 100), Vector3d(9, 0, 2.5), 0.5));
     _primitives.push_back(std::make_shared<Sphere>(Color(100, 255, 100), Vector3d(5, -5, -1), 1.5));
     _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 255), Vector3d(11, 0, 0), 2));
     _primitives.push_back(std::make_shared<Sphere>(Color(255, 100, 100), Vector3d(7, 5, 1), 1.75));
@@ -47,8 +47,10 @@ rtx::Image& rtx::Scene::render(Image& image, uint32_t batch_size) const
     auto height = this->_camera.settings().height();
 
     for (uint32_t i = 0; i < batch_size; i++) {
-            auto w = std::rand() % width;
-            auto h = std::rand() % height;
+            auto idx = image.randindex();
+            if (!idx.has_value()) return image;
+            double w = idx.value() % width;
+            double h = idx.value() / width;
             double u = w / static_cast <double>(width);
             double v = h / static_cast <double>(height);
             const Ray& ray = this->_camera.ray(u, v);

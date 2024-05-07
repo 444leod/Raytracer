@@ -11,6 +11,9 @@
 rtx::Image::Image(u_int32_t width, u_int32_t height)
     : _width(width), _height(height)
 {
+    for (uint32_t i = 0; i < width * height; i++)
+        this->_unrendered.push_back(i);
+    std::random_shuffle(this->_unrendered.begin(), this->_unrendered.end());
     this->_array = static_cast<uint8_t *>(std::malloc(width * height * 4));
     if (this->_array == NULL)
         throw std::runtime_error("Memory error. Could not create pixel array for rtx::Image");
@@ -18,6 +21,7 @@ rtx::Image::Image(u_int32_t width, u_int32_t height)
 
 rtx::Image::~Image()
 {
+    //std::free(this->_array);
 }
 
 void rtx::Image::set(uint32_t x, uint32_t y, Color color)
@@ -32,6 +36,7 @@ void rtx::Image::set(uint32_t x, uint32_t y, Color color)
 
 void rtx::Image::clear(Color color)
 {
+    this->_unrendered_idx = 0;
     for (uint32_t i = 0; i < this->_width * this->_height * 4; i += 4) {
         this->_array[i + 0] = color.r;
         this->_array[i + 1] = color.g;
@@ -62,4 +67,12 @@ uint32_t rtx::Image::height() const
 uint8_t *rtx::Image::array() const
 {
     return this->_array;
+}
+
+std::optional<uint32_t> rtx::Image::randindex()
+{
+    if (this->_unrendered_idx >= this->_unrendered.size())
+        return std::nullopt;
+    this->_unrendered_idx++;
+    return this->_unrendered.at(this->_unrendered_idx - 1);
 }
