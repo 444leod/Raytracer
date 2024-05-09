@@ -26,12 +26,12 @@ rtx::Cone::Cone(Color color, Vector3d apex, Vector3d axis, double theta)
 */
 std::optional<rtx::HitResult> rtx::Cone::hits(const rtx::Ray& ray) const
 {
-    auto theta = this->theta();
+    auto theta = this->_theta;
     auto o = ray.origin() - this->_position;
     auto d = ray.direction();
 
     double dv = d.dot(this->_axis);
-    Vector3d co = o - _apex;
+    Vector3d co = o - this->_apex;
     double cov = co.dot(this->_axis);
     double theta_squared = std::pow(std::cos(theta), 2);
 
@@ -51,10 +51,11 @@ std::optional<rtx::HitResult> rtx::Cone::hits(const rtx::Ray& ray) const
     if (k < 0.01)
         return std::nullopt;
     auto p = ray.origin() + ray.direction().normalized() * k;
-    Vector3d v = p - _apex;
-    double projection = v.dot(_axis);
+    Vector3d v = p - this->_apex;
+    double projection = v.dot(this->_axis);
     Vector3d proj_axis = _axis * projection;
     Vector3d normal = (v - proj_axis) / (v - proj_axis).size();
+
     return HitResult(p, normal, this->_color);
 }
 
