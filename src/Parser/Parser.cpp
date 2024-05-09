@@ -59,26 +59,20 @@ void rtx::Parser::parseCamera(std::istringstream& iss, std::string key)
 {
     std::string equal;
 
-    std::cout << key << std::endl;
     if (key == "resolution") {
         int width, height;
         iss >> equal >> width >> height;
         verifyEqual(equal);
-        std::cout << width << " " << height << std::endl;
     } else if (key == "position") {
         double x = 0, y = 0, z = 0;
         iss >> equal >> x >> y >> z;
         verifyEqual(equal);
-        std::cout << x << " " << y << " " << z << std::endl;
         _camera->setPosition(Vector3d(x, y, z));
-        std::cout << _camera->position() << std::endl;
     } else if (key == "rotation") {
         double x = 0, y = 0, z = 0;
         iss >> equal >> x >> y >> z;
         verifyEqual(equal);
-        std::cout << x << " " << y << " " << z << std::endl;
         _camera->setRotation(Vector3d(x, y, z));
-        std::cout << _camera->rotation() << std::endl;
     } else if (key == "fov") {
         double fov = 0;
         iss >> equal >> fov;
