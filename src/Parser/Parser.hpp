@@ -47,7 +47,7 @@ namespace rtx {
             std::vector<std::shared_ptr<IPrimitive>> _primitives;
             // std::vector<Light> _lights;
             std::shared_ptr<rtx::Camera> _camera;
-            std::pair <u_int8_t, u_int8_t> _resolution; 
+            std::pair <u_int32_t, u_int32_t> _resolution; 
             std::string _rest;
 
             void verifyEqual(std::string equal);

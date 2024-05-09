@@ -65,7 +65,6 @@ void rtx::Parser::parseCamera(std::istringstream& iss, std::string key)
         iss >> equal >> width >> height;
         verifyEqual(equal);
         std::cout << width << " " << height << std::endl;
-        // You may do something with the resolution if needed
     } else if (key == "position") {
         double x = 0, y = 0, z = 0;
         iss >> equal >> x >> y >> z;
