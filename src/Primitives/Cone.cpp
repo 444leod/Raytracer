@@ -47,7 +47,7 @@ std::optional<rtx::HitResult> rtx::Cone::hits(const rtx::Ray& ray) const
     if (_is_not_shadow(k_pair.value().first, ray))
         k = k_pair.value().first;
     else
-        k = k_pair.value().second;
+        return std::nullopt;
     if (k < 0.01)
         return std::nullopt;
     auto p = ray.origin() + ray.direction().normalized() * k;
