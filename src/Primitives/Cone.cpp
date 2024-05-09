@@ -57,3 +57,16 @@ std::optional<rtx::HitResult> rtx::Cone::hits(const rtx::Ray& ray) const
     Vector3d normal = (v - proj_axis) / (v - proj_axis).size();
     return HitResult(p, normal, this->_color);
 }
+
+bool rtx::Cone::_is_not_shadow(double k, const rtx::Ray& ray) const
+{
+    auto p = ray.origin() + ray.direction().normalized() * k;
+    if (_theta < M_PI_2) {
+        if ((p - _position).dot(_axis) < 0)
+            return false;
+    } else {
+        if (((p - _position) / (p - _position).size()).dot(_axis) - std::cos(_theta) > 0.01)
+            return false;
+    }
+    return true;
+}

@@ -17,6 +17,7 @@ namespace rtx {
             ~Cone() = default;
 
             virtual std::optional<HitResult> hits(const Ray& ray) const;
+            bool _is_not_shadow(double k, const rtx::Ray& ray) const;
 
         protected:
         private:
