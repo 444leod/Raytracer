@@ -1,30 +1,25 @@
-camera :
+camera:
 resolution = 1920 1080
 position = 0 -100 20
 rotation = 0 0 0
 fov = 72.0
-
-lights :
+lights:
 ambient = 0.4
 diffuse = 0.6
 positions = 400 100 500, 0 30 500, 800 0 20
 directional = 0 0 -1
-
 sphere:
 position = 0 0 0
 rgb = 255 255 255
 radius = 100
-
 sphere:
 position = 0 0 0
 rgb = 255 255 255
 radius = 100
-
 sphere:
 position = 0 0 0
 rgb = 255 255 255
 radius = 100
-
 plane:
 position = 0 0 0
 rgb = 255 0 0
