@@ -14,6 +14,7 @@ SRC	:=	src/Main.cpp	\
 		src/Rendering/Scene.cpp	\
 		src/Primitives/Sphere.cpp	\
 		src/Primitives/Plane.cpp	\
+		src/Primitives/Cone.cpp \
 		src/Lighting/Light.cpp	\
 
 OBJ	:=	$(SRC:.cpp=.o)
