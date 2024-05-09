@@ -44,10 +44,11 @@ namespace rtx {
         };
 
         private:
-            std::string _rest;
             std::vector<std::shared_ptr<IPrimitive>> _primitives;
             // std::vector<Light> _lights;
             std::shared_ptr<rtx::Camera> _camera;
+            std::pair <u_int8_t, u_int8_t> _resolution; 
+            std::string _rest;
 
             void verifyEqual(std::string equal);
             std::vector<std::string> split(std::string s, std::string delimiter);

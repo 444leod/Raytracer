@@ -34,17 +34,6 @@ void rtx::Parser::runParser(std::string fileName)
         throw ParserException("Could not open file");
     parseCamera(file);
     
-    // std::stringstream buffer;
-    // buffer << file.rdbuf();
-    // _rest = buffer.str();
-    // std::cout << _rest << std::endl;
-    // std::vector<std::string> lines = split(_rest, "\n");
-    // for (auto i : lines) std::cout << i << std::endl;
-    // for (int i = 0; i < lines.size(); i++) {
-    //     if (lines[i] == "camera:") {
-    //         parseCamera();
-    //     }
-    // }
 }
 
 void rtx::Parser::verifyEqual(std::string equal)
