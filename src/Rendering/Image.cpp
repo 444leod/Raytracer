@@ -8,10 +8,10 @@
 #include <iostream>
 #include "Image.hpp"
 
-rtx::Image::Image(u_int32_t width, u_int32_t height)
+rtx::Image::Image(std::uint32_t width, std::uint32_t height)
     : _width(width), _height(height)
 {
-    for (uint32_t i = 0; i < width * height; i++)
+    for (std::uint32_t i = 0; i < width * height; i++)
         this->_unrendered.push_back(i);
     std::random_shuffle(this->_unrendered.begin(), this->_unrendered.end());
     this->_array = static_cast<uint8_t *>(std::malloc(width * height * 4));
@@ -24,7 +24,7 @@ rtx::Image::~Image()
     //std::free(this->_array);
 }
 
-void rtx::Image::set(uint32_t x, uint32_t y, Color color)
+void rtx::Image::set(std::uint32_t x, std::uint32_t y, Color color)
 {
     auto i = this->_width * 4 * y + x * 4;
 
@@ -37,7 +37,7 @@ void rtx::Image::set(uint32_t x, uint32_t y, Color color)
 void rtx::Image::clear(Color color)
 {
     this->_unrendered_idx = 0;
-    for (uint32_t i = 0; i < this->_width * this->_height * 4; i += 4) {
+    for (std::uint32_t i = 0; i < this->_width * this->_height * 4; i += 4) {
         this->_array[i + 0] = color.r;
         this->_array[i + 1] = color.g;
         this->_array[i + 2] = color.b;
@@ -54,12 +54,12 @@ sf::Sprite rtx::Image::drawable()
     return sf::Sprite(this->_tex);
 }
 
-uint32_t rtx::Image::width() const
+std::uint32_t rtx::Image::width() const
 {
     return this->_width;
 }
 
-uint32_t rtx::Image::height() const
+std::uint32_t rtx::Image::height() const
 {
     return this->_height;
 }
@@ -69,7 +69,7 @@ uint8_t *rtx::Image::array() const
     return this->_array;
 }
 
-std::optional<uint32_t> rtx::Image::randindex()
+std::optional<std::uint32_t> rtx::Image::randindex()
 {
     if (this->_unrendered_idx >= this->_unrendered.size())
         return std::nullopt;

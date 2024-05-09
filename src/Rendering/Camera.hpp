@@ -8,6 +8,8 @@
 #pragma once
 
 #include <SFML/Window/VideoMode.hpp>
+#include <cstdint>
+
 #include "Vector.hpp"
 #include "Matrix.hpp"
 #include "Ray.hpp"
@@ -16,17 +18,17 @@ namespace rtx
 {
     class RenderSettings {
         public:
-            RenderSettings(uint32_t width, uint32_t height, double fov)
+            RenderSettings(std::uint32_t width, std::uint32_t height, double fov)
                 : _width(width), _height(height), _fov(fov) {};
             ~RenderSettings() = default;
-            uint32_t width() const { return _width; }
-            uint32_t height() const { return _height; }
+            std::uint32_t width() const { return _width; }
+            std::uint32_t height() const { return _height; }
             double fov() const { return _fov; }
             void setFov(double fov) { this->_fov = fov; }
             sf::VideoMode toSf() const { return sf::VideoMode(this->_width, this->_height); }
         private:
-            uint32_t _width;
-            uint32_t _height;
+            std::uint32_t _width;
+            std::uint32_t _height;
             double _fov;
     };
 

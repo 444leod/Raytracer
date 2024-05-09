@@ -16,23 +16,23 @@
 namespace rtx {
     class Image {
         public:
-            Image(uint32_t width, uint32_t height);
+            Image(std::uint32_t width, std::uint32_t height);
             ~Image();
-            void set(uint32_t x, uint32_t y, Color color);
+            void set(std::uint32_t x, std::uint32_t y, Color color);
             void clear(Color color = Color());
             sf::Sprite drawable();
-            uint32_t width() const;
-            uint32_t height() const;
+            std::uint32_t width() const;
+            std::uint32_t height() const;
             uint8_t *array() const;
-            std::optional<uint32_t> randindex();
+            std::optional<std::uint32_t> randindex();
 
         protected:
         private:
-            uint32_t _width = 0;
-            uint32_t _height = 0;
+            std::uint32_t _width = 0;
+            std::uint32_t _height = 0;
             uint8_t *_array = nullptr;
             sf::Texture _tex;
-            std::vector<uint32_t> _unrendered = {};
-            uint32_t _unrendered_idx = 0;
+            std::vector<std::uint32_t> _unrendered = {};
+            std::uint32_t _unrendered_idx = 0;
     };
 }
