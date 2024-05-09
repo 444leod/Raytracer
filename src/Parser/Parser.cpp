@@ -9,6 +9,7 @@
 
 rtx::Parser::Parser()
 {
+    _camera = std::make_shared<rtx::Camera>();
 }
 
 std::vector<std::string> rtx::Parser::split(std::string s, std::string delimiter) {
@@ -32,8 +33,20 @@ void rtx::Parser::runParser(std::string fileName)
     std::ifstream file(fileName);
     if (!file.is_open())
         throw ParserException("Could not open file");
-    parseCamera(file);
-    
+    // parseCamera(file);
+
+    std::string line;
+    bool foundCamera = false;
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
+        std::string key;
+        iss >> key;
+        if (key == "camera:") {
+            foundCamera = true;
+        } else if (foundCamera) {
+            parseCamera(iss, key);
+        }
+    }
 }
 
 void rtx::Parser::verifyEqual(std::string equal)
@@ -42,53 +55,36 @@ void rtx::Parser::verifyEqual(std::string equal)
         throw ParserException("Invalid syntax, expected '='");
 }
 
-void rtx::Parser::parseCamera(std::ifstream& file)
+void rtx::Parser::parseCamera(std::istringstream& iss, std::string key)
 {
-    double fov = 72.0; // Default values
-    Vector3d position(0, 0, 0);
-    Vector3d rotation(0, 0, 0);
+    double fov = 0;
     double x = 0, y = 0, z = 0;
     std::string equal;
-    std::string line;
-    bool foundCamera = false;
 
-    while (std::getline(file, line)) {
-        std::istringstream iss(line);
-        std::string key;
-        iss >> key;
-        if (key == "camera:") {
-            foundCamera = true;
-        } else if (foundCamera) {
-            std::cout << key << std::endl;
-            if (key == "resolution") {
-                int width, height;
-                iss >> equal >> width >> height;
-                verifyEqual(equal);
-                std::cout << width << " " << height << std::endl;
-                // You may do something with the resolution if needed
-            } else if (key == "position") {
-                iss >> equal >> x >> y >> z;
-                verifyEqual(equal);
-                std::cout << x << " " << y << " " << z << std::endl;
-                position.setX(x);
-                position.setY(y);
-                position.setZ(z);
-                std::cout << position << std::endl;
-            } else if (key == "rotation") {
-                iss >> equal >> x >> y >> z;
-                verifyEqual(equal);
-                rotation.setX(x);
-                rotation.setY(y);
-                rotation.setZ(z);
-            } else if (key == "fov") {
-                iss >> equal >> fov;
-                verifyEqual(equal);
-            }
-        }
+    std::cout << key << std::endl;
+    if (key == "resolution") {
+        int width, height;
+        iss >> equal >> width >> height;
+        verifyEqual(equal);
+        std::cout << width << " " << height << std::endl;
+        // You may do something with the resolution if needed
+    } else if (key == "position") {
+        iss >> equal >> x >> y >> z;
+        verifyEqual(equal);
+        std::cout << x << " " << y << " " << z << std::endl;
+        _camera->setPosition(Vector3d(x, y, z));
+        std::cout << _camera->position() << std::endl;
+    } else if (key == "rotation") {
+        iss >> equal >> x >> y >> z;
+        verifyEqual(equal);
+        std::cout << x << " " << y << " " << z << std::endl;
+        _camera->setRotation(Vector3d(x, y, z));
+        std::cout << _camera->rotation() << std::endl;
+    } else if (key == "fov") {
+        iss >> equal >> fov;
+        verifyEqual(equal);
+        _camera->setFov(fov);
     }
-    if (!foundCamera)
-        throw ParserException("No camera found in file");
-    _camera = std::make_shared<rtx::Camera>(fov, position, rotation);
 }
 
 std::vector<std::shared_ptr<rtx::IPrimitive>> rtx::Parser::getPrimitives() const

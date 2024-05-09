@@ -37,6 +37,8 @@ namespace rtx {
                 return Vector3<T>(this->_x * other._x, this->_y * other._y, this->_z * other._z); }
             Vector3<T> operator/(const Vector3<T>& other) const {
                 return Vector3<T>(this->_x / other._x, this->_y / other._y, this->_z / other._z); }
+            Vector3<T> operator=(const Vector3<T>& other) {
+                this->_x = other._x; this->_y = other._y; this->_z = other._z; return *this; }
 
             template<typename U>
             Vector3<T> operator*(U factor) const {

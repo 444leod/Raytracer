@@ -22,6 +22,9 @@ namespace rtx
             Vector3d forward() const;
             const Vector3d& position() const;
             const Vector3d& rotation() const;
+            void setPosition(const Vector3d& position) { this->_position = position; }
+            void setRotation(const Vector3d& rotation) { this->_rotation = rotation; }
+            void setFov(double fov) { this->_fov = fov; }
             Ray ray(double x, double y) const;
 
         protected:

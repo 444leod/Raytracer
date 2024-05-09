@@ -17,6 +17,7 @@ namespace rtx {
             ~Sphere() = default;
 
             double radius() const { return this->_radius; }
+            void setRadius(double radius) { this->_radius = radius; }
 
             bool hits(const Ray& ray) const;
 
