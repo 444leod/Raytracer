@@ -13,6 +13,25 @@ rtx::LimitedCylinder::LimitedCylinder(Color color, Vector3d position, Vector3d a
 {
 }
 
+/**
+ * Maths be like:
+ *
+ *  => a*k² + b*k + c = 0
+ *      where   a = 1 - (d dot x)²
+ *              b = 2 * (d dot (o - p) - (d dot x) * (o - p) dot x)
+ *              c = (o - p) dot (o - p) - ((o - p) dot x)² - r²
+ *
+ *  It can be solved usic quadratic formula:
+ *      D = b² - 4 * a * c
+ * 
+ * Then we check if the intersection point is inside the cylinder
+ * by checking if the projection of the intersection point on the axis
+ * is between 0 and the height of the cylinder.
+ * we calculate the projection with the formula:
+ * projection = x * v.dot(x) where x is the axis of the cylinder
+ * and v is the vector from the apex of the cylinder to the intersection point
+*/
+
 std::optional<rtx::HitResult> rtx::LimitedCylinder::hits(const rtx::Ray& ray) const
 {
     auto o = ray.origin() - this->_position;
@@ -42,10 +61,8 @@ std::optional<rtx::HitResult> rtx::LimitedCylinder::hits(const rtx::Ray& ray) co
     auto v = i - p;
     auto projection = x * v.dot(x);
     
-    // Calculate the projection length
     double projection_length = projection.dot(x);
     
-    // Check if the projection length is within the height of the cylinder
     if (projection_length < 0 || projection_length > h)
         return std::nullopt;
 
