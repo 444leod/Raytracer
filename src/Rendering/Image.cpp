@@ -5,7 +5,6 @@
 ** Image
 */
 
-#include <iostream>
 #include "Image.hpp"
 
 rtx::Image::Image(std::uint32_t width, std::uint32_t height)
@@ -13,7 +12,8 @@ rtx::Image::Image(std::uint32_t width, std::uint32_t height)
 {
     for (std::uint32_t i = 0; i < width * height; i++)
         this->_unrendered.push_back(i);
-    std::random_shuffle(this->_unrendered.begin(), this->_unrendered.end());
+    auto rng = std::default_random_engine();
+    std::shuffle(this->_unrendered.begin(), this->_unrendered.end(), rng);
     this->_array = static_cast<uint8_t *>(std::malloc(width * height * 4));
     if (this->_array == NULL)
         throw std::runtime_error("Memory error. Could not create pixel array for rtx::Image");

@@ -8,6 +8,8 @@
 #pragma once
 
 #include <optional>
+#include <algorithm>
+#include <random>
 #include <cstdint>
 #include <cstring>
 #include "Color.hpp"
