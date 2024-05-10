@@ -12,6 +12,7 @@ SRC	:=	src/Main.cpp	\
 		src/Parser/Parser.cpp	\
 		src/Rendering/Camera.cpp	\
 		src/Primitives/Sphere.cpp	\
+		src/Primitives/Triangle.cpp	\
 		src/Primitives/Plane.cpp	\
 
 OBJ	:=	$(SRC:.cpp=.o)

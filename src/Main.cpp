@@ -14,7 +14,7 @@
 
 int main(
     [[maybe_unused]] int ac,
-    [[maybe_unused]] char **av,
+    char **av,
     [[maybe_unused]] char **env
 )
 {
@@ -31,5 +31,8 @@ int main(
     }
     std::cout << parser.getCamera()->position() << " " << parser.getCamera()->rotation() << std::endl;
     std::cout << parser.getCamera()->forward() << std::endl;
+    for (auto &primitive : parser.getPrimitives()) {
+        std::cout << primitive->position() << std::endl;
+    }
     return 0;
 }

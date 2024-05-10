@@ -71,10 +71,10 @@ void rtx::Parser::parseSphere(std::istringstream &iss, std::string key, bool &fo
         verifyEqual(equal);
         sphere.setRadius(radius);
     } else if (key == "color") {
-        double r = 0, g = 0, b = 0;
+        u_int8_t r = 0, g = 0, b = 0;
         iss >> equal >> r >> g >> b;
         if (iss.fail())
-            throw ParserException("Invalid syntax, color expects 3 doubles");
+            throw ParserException("Invalid syntax, color expects 3 uint8_t");
         verifyEqual(equal);
         sphere.setColor(Color(r, g, b));
     } else {
@@ -92,8 +92,7 @@ void rtx::Parser::parseCamera(std::istringstream &iss, std::string key, bool &fo
         if (iss.fail())
             throw ParserException("Invalid syntax, resolution expects 2 integers");
         verifyEqual(equal);
-    }
-    else if (key == "position") {
+    } else if (key == "position") {
         double x = 0, y = 0, z = 0;
         iss >> equal >> x >> y >> z;
         if (iss.fail())
