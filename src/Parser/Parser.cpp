@@ -9,8 +9,6 @@
 
 rtx::Parser::Parser()
 {
-    rtx::RenderSettings settings(1920, 1080, 72);
-    _camera = std::make_shared<rtx::Camera>(settings, Vector3d(0, 0, 0), Vector3d(0, 0, 0));
 }
 
 void rtx::Parser::runParser(std::string fileName)
@@ -93,27 +91,28 @@ void rtx::Parser::parseCamera(std::istringstream &iss, std::string key, bool &fo
         if (iss.fail())
             throw ParserException("Invalid syntax, resolution expects 2 integers");
         verifyEqual(equal);
+        _camera.setResolution(width, height);
     } else if (key == "position") {
         double x = 0, y = 0, z = 0;
         iss >> equal >> x >> y >> z;
         if (iss.fail())
             throw ParserException("Invalid syntax, position expects 3 doubles");
         verifyEqual(equal);
-        _camera->setPosition(Vector3d(x, y, z));
+        _camera.setPosition(Vector3d(x, y, z));
     } else if (key == "rotation") {
         double x = 0, y = 0, z = 0;
         iss >> equal >> x >> y >> z;
         if (iss.fail())
             throw ParserException("Invalid syntax, rotation expects 3 doubles");
         verifyEqual(equal);
-        _camera->setRotation(Vector3d(x, y, z));
+        _camera.setRotation(Vector3d(x, y, z));
     } else if (key == "fov") {
         double fov = 0;
         iss >> equal >> fov;
         if (iss.fail())
             throw ParserException("Invalid syntax, fov expects a double");
         verifyEqual(equal);
-        _camera->setFov(fov);
+        _camera.setFov(fov);
     } else {
         foundCamera = false;
     }
@@ -131,7 +130,7 @@ std::vector<Light> getLights() const
 }
 */
 
-std::shared_ptr<rtx::Camera> rtx::Parser::getCamera() const
+rtx::Camera rtx::Parser::getCamera() const
 {
     return _camera;
 }

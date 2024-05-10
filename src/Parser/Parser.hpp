@@ -25,7 +25,7 @@ namespace rtx {
             void runParser(std::string file);
             std::vector<std::shared_ptr<rtx::IPrimitive>> getPrimitives() const;
             // std::vector<Light> getLights() const;
-            std::shared_ptr<rtx::Camera> getCamera() const;
+            rtx::Camera getCamera() const;
 
 
         class ParserException : public std::exception {
@@ -46,8 +46,7 @@ namespace rtx {
         private:
             std::vector<std::shared_ptr<IPrimitive>> _primitives;
             // std::vector<Light> _lights;
-            std::shared_ptr<rtx::Camera> _camera;
-            std::pair <u_int32_t, u_int32_t> _resolution; 
+            rtx::Camera _camera = rtx::Camera(rtx::RenderSettings(1080, 720, M_PI_2), Vector3d(), Vector3d());
             std::string _rest;
 
             void verifyEqual(std::string equal);

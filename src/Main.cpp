@@ -19,25 +19,22 @@ int main(
     [[maybe_unused]] char **env
 )
 {
-    // if (av[1] == nullptr || !std::string(av[1]).compare("--help")) {
-    //     std::cout << "USAGE: ./raytracer <SCENE_FILE>\n\tSCENE_FILE: scene configuration" << std::endl;
-    //     return 84;
-    // }
-    // rtx::Parser parser = rtx::Parser();
-    // try {
-    //     parser.runParser(std::string(av[1]));
-    // } catch (rtx::Parser::ParserException &e) {
-    //     std::cerr << e.what() << std::endl;
-    //     return 84;
-    // }
-    // std::cout << parser.getCamera()->position() << " " << parser.getCamera()->rotation() << std::endl;
-    // std::cout << parser.getCamera()->forward() << std::endl;
-    // for (auto &primitive : parser.getPrimitives()) {
-    //     std::cout << primitive->position() << std::endl;
-    // }
+    if (av[1] == nullptr || !std::string(av[1]).compare("--help")) {
+        std::cout << "USAGE: ./raytracer <SCENE_FILE>\n\tSCENE_FILE: scene configuration" << std::endl;
+        return 84;
+    }
+    rtx::Parser parser = rtx::Parser();
+    try {
+        parser.runParser(std::string(av[1]));
+    } catch (rtx::Parser::ParserException &e) {
+        std::cerr << e.what() << std::endl;
+        return 84;
+    }
     
-    rtx::RenderSettings settings = rtx::RenderSettings(1080, 720, M_PI_2);
-    rtx::Camera cam = rtx::Camera(settings, rtx::Vector3d(), rtx::Vector3d(.0, .0, .0));
+    // rtx::RenderSettings settings = rtx::RenderSettings(1080, 720, M_PI_2);
+    // rtx::Camera cam = rtx::Camera(settings, rtx::Vector3d(), rtx::Vector3d(.0, .0, .0));
+    rtx::Camera cam = parser.getCamera();
+    rtx::RenderSettings settings = cam.settings();
     rtx::Scene scene(cam);
 
     sf::RenderWindow win(settings.toSf(), "Window");
