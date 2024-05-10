@@ -9,7 +9,8 @@
 
 rtx::Parser::Parser()
 {
-    _camera = std::make_shared<rtx::Camera>();
+    rtx::RenderSettings settings(1920, 1080, 72);
+    _camera = std::make_shared<rtx::Camera>(settings, Vector3d(0, 0, 0), Vector3d(0, 0, 0));
 }
 
 void rtx::Parser::runParser(std::string fileName)
