@@ -5,9 +5,10 @@
 ** Main
 */
 
+#include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Vector.hpp"
 #include "Camera.hpp"
+#include "Scene.hpp"
 
 int main(
     [[maybe_unused]] int ac,
@@ -15,7 +16,24 @@ int main(
     [[maybe_unused]] char **env
 )
 {
-    rtx::Camera cam = rtx::Camera(72, rtx::Vector3d(), rtx::Vector3d(.0, .0, M_PI));
-    std::cout << cam.forward() << std::endl;
+    rtx::RenderSettings settings = rtx::RenderSettings(1080, 720, M_PI_2);
+    rtx::Camera cam = rtx::Camera(settings, rtx::Vector3d(), rtx::Vector3d(.0, .0, .0));
+    rtx::Scene scene(cam);
+
+    sf::RenderWindow win(settings.toSf(), "Window");
+    sf::Image img = scene.render();
+    sf::Texture tex; tex.loadFromImage(img);
+    sf::Sprite sprite(tex);
+
+    while (win.isOpen()) {
+        sf::Event e;
+        while (win.pollEvent(e))
+            if (e.type == sf::Event::Closed)
+                win.close();
+        win.clear();
+        win.draw(sprite);
+        win.display();
+    }
+
     return 0;
 }

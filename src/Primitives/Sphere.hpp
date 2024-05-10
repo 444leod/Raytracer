@@ -17,8 +17,7 @@ namespace rtx {
             ~Sphere() = default;
 
             double radius() const { return this->_radius; }
-
-            bool hits(const Ray& ray) const;
+            virtual std::optional<HitResult> hits(const Ray& ray) const;
 
         protected:
         private:

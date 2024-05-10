@@ -17,7 +17,7 @@ namespace rtx {
             ~Plane() = default;
 
             const Vector3d& normal() const { return this->_normal; }
-            bool hits(const Ray& ray) const;
+            virtual std::optional<HitResult> hits(const Ray& ray) const;
 
         protected:
         private:

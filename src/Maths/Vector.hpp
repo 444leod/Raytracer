@@ -20,6 +20,12 @@ namespace rtx {
             Vector3(const Vector3& other) : _x(other.x()), _y(other.y()), _z(other.z()) {}
             Vector3(const Vector3&& other) : _x(other.x()), _y(other.y()), _z(other.z()) {}
             ~Vector3() = default;
+            const Vector3<T>& operator=(const Vector3<T>& other) {
+                this->_x = other.x();
+                this->_y = other.y();
+                this->_z = other.z();
+                return *this;
+            }
 
             T x() const { return this->_x; }   // Getters
             T y() const { return this->_y; }
@@ -61,6 +67,8 @@ namespace rtx {
             template<typename U>
             void operator/=(U factor) {
                 this->_x /= factor; this->_y /= factor; this->_z /= factor; }
+
+            bool operator==(const Vector3<T>& other) const { return std::size(*this - other) < 0.001; }
 
             // Gets the length of the vector
             double size() const {
