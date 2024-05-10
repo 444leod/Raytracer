@@ -35,21 +35,16 @@ void rtx::Parser::runParser(std::string fileName)
     std::ifstream file(fileName);
     if (!file.is_open())
         throw ParserException("Could not open file");
-    // parseCamera(file);
 
     std::string line;
     bool foundCamera = false;
-    while (std::getline(file, line))
-    {
+    while (std::getline(file, line)) {
         std::istringstream iss(line);
         std::string key;
         iss >> key;
-        if (key == "camera:")
-        {
+        if (key == "camera:") {
             foundCamera = true;
-        }
-        else if (foundCamera)
-        {
+        } else if (foundCamera) {
             parseCamera(iss, key, foundCamera);
         }
     }
@@ -65,43 +60,35 @@ void rtx::Parser::parseCamera(std::istringstream &iss, std::string key, bool &fo
 {
     std::string equal;
 
-    if (key == "resolution")
-    {
+    if (key == "resolution") {
         int width, height;
         iss >> equal >> width >> height;
         if (iss.fail())
             throw ParserException("Invalid syntax, resolution expects 2 integers");
         verifyEqual(equal);
     }
-    else if (key == "position")
-    {
+    else if (key == "position") {
         double x = 0, y = 0, z = 0;
         iss >> equal >> x >> y >> z;
         if (iss.fail())
             throw ParserException("Invalid syntax, position expects 3 doubles");
         verifyEqual(equal);
         _camera->setPosition(Vector3d(x, y, z));
-    }
-    else if (key == "rotation")
-    {
+    } else if (key == "rotation") {
         double x = 0, y = 0, z = 0;
         iss >> equal >> x >> y >> z;
         if (iss.fail())
             throw ParserException("Invalid syntax, rotation expects 3 doubles");
         verifyEqual(equal);
         _camera->setRotation(Vector3d(x, y, z));
-    }
-    else if (key == "fov")
-    {
+    } else if (key == "fov") {
         double fov = 0;
         iss >> equal >> fov;
         if (iss.fail())
             throw ParserException("Invalid syntax, fov expects a double");
         verifyEqual(equal);
         _camera->setFov(fov);
-    }
-    else
-    {
+    } else {
         foundCamera = false;
     }
 }

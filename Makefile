@@ -20,7 +20,8 @@ CC	:=	g++
 
 CXXFLAGS	+=	-Wall -Wextra -Werror -Wpedantic
 CXXFLAGS	+=	-lsfml-graphics -lsfml-window -lsfml-system
-CXXFLAGS 	+=	-I./src/Maths/ -I./src/Parser -I./src/Rendering -I./src/Primitives
+CXXFLAGS 	+=	-I./src/Maths/ -I./src/Parser -I./src/Rendering\
+-I./src/Primitives
 
 all:	$(NAME)
 
