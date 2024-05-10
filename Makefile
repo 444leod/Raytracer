@@ -10,10 +10,13 @@ NAME	:= raytracer
 SRC	:=	src/Main.cpp	\
 		src/Maths/Ray.cpp	\
 		src/Parser/Parser.cpp	\
+		src/Rendering/Image.cpp	\
 		src/Rendering/Camera.cpp	\
+		src/Rendering/Scene.cpp	\
 		src/Primitives/Sphere.cpp	\
 		src/Primitives/Triangle.cpp	\
 		src/Primitives/Plane.cpp	\
+		src/Lighting/Light.cpp	\
 
 OBJ	:=	$(SRC:.cpp=.o)
 
@@ -21,8 +24,8 @@ CC	:=	g++
 
 CXXFLAGS	+=	-Wall -Wextra -Werror -Wpedantic
 CXXFLAGS	+=	-lsfml-graphics -lsfml-window -lsfml-system
-CXXFLAGS 	+=	-I./src/Maths/ -I./src/Parser -I./src/Rendering\
--I./src/Primitives
+CXXFLAGS 	+=	-I./src/Maths -I./src/Parser -I./src/Rendering\
+	-I./src/Primitives -I./src/Lighting
 
 all:	$(NAME)
 

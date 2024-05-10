@@ -20,6 +20,12 @@ namespace rtx {
             Vector3(const Vector3& other) : _x(other.x()), _y(other.y()), _z(other.z()) {}
             Vector3(const Vector3&& other) : _x(other.x()), _y(other.y()), _z(other.z()) {}
             ~Vector3() = default;
+            const Vector3<T>& operator=(const Vector3<T>& other) {
+                this->_x = other.x();
+                this->_y = other.y();
+                this->_z = other.z();
+                return *this;
+            }
 
             T x() const { return this->_x; }   // Getters
             T y() const { return this->_y; }
@@ -37,8 +43,6 @@ namespace rtx {
                 return Vector3<T>(this->_x * other._x, this->_y * other._y, this->_z * other._z); }
             Vector3<T> operator/(const Vector3<T>& other) const {
                 return Vector3<T>(this->_x / other._x, this->_y / other._y, this->_z / other._z); }
-            Vector3<T> operator=(const Vector3<T>& other) {
-                this->_x = other._x; this->_y = other._y; this->_z = other._z; return *this; }
 
             template<typename U>
             Vector3<T> operator*(U factor) const {
@@ -63,6 +67,8 @@ namespace rtx {
             template<typename U>
             void operator/=(U factor) {
                 this->_x /= factor; this->_y /= factor; this->_z /= factor; }
+
+            bool operator==(const Vector3<T>& other) const { return std::size(*this - other) < 0.001; }
 
             // Gets the length of the vector
             double size() const {
@@ -95,7 +101,7 @@ namespace rtx {
                 return a._x * b._x + a._y * b._y + a._z * b._z; }
 
             template<typename U>
-            Vector3 rotate(const Vector3<U>& rotation) {
+            Vector3 rotate(const Vector3<U>& rotation) const {
                 U rx[3][3] = {
                     { 1.0, .0, .0 },
                     { .0, std::cos(rotation.x()), -std::sin(rotation.x()) },

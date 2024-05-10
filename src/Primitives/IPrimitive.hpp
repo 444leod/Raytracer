@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <optional>
+#include "HitResult.hpp"
 #include "Vector.hpp"
 #include "Ray.hpp"
 #include "Color.hpp"
@@ -20,7 +22,7 @@ namespace rtx {
             virtual const Vector3d& position() const = 0;
             virtual void setColor(const Color& color) = 0;
             virtual void setPosition(const Vector3d& position) = 0;
-            virtual bool hits(const Ray& ray) const = 0;
+            virtual std::optional<HitResult> hits(const Ray& ray) const = 0;
         protected:
         private:
     };

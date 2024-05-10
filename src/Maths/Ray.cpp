@@ -39,3 +39,8 @@ rtx::Vector3d rtx::Ray::direction() const
 {
     return this->_direction;
 }
+
+rtx::Ray rtx::Ray::bounce(const Vector3d& point, const Vector3d& normal) const
+{
+    return Ray(point, this->_direction * normal * 2.0 * normal.dot(this->_direction));
+}
