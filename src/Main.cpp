@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <list>
 #include "Camera.hpp"
 #include "Scene.hpp"
 
@@ -21,17 +22,29 @@ int main(
     rtx::Scene scene(cam);
 
     sf::RenderWindow win(settings.toSf(), "Window");
-    sf::Image img = scene.render();
-    sf::Texture tex; tex.loadFromImage(img);
-    sf::Sprite sprite(tex);
+    rtx::Image image = rtx::Image(settings.width(), settings.height());
 
     while (win.isOpen()) {
         sf::Event e;
+
         while (win.pollEvent(e))
-            if (e.type == sf::Event::Closed)
-                win.close();
+            if (e.type == sf::Event::Closed) win.close();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            image.clear(); scene.camera().rotate(rtx::Vector3d(.0, .0, .1)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            image.clear(); scene.camera().rotate(rtx::Vector3d(.0, .0, -.1)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+            image.clear(); scene.camera().move(rtx::Vector3d(.1, .0, .0)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            image.clear(); scene.camera().move(rtx::Vector3d(-.1, -.0, .0)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+            image.clear(); scene.camera().move(rtx::Vector3d(.0, -.1, .0)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            image.clear(); scene.camera().move(rtx::Vector3d(.0, .1, .0)); }
+
+        scene.render(image, 5000);
         win.clear();
-        win.draw(sprite);
+        win.draw(image.drawable());
         win.display();
     }
 

@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>
 
+#include "Image.hpp"
 #include "Camera.hpp"
 #include "Sphere.hpp"
 #include "Plane.hpp"
@@ -19,20 +19,22 @@
 namespace rtx {
     class Scene {
         public:
-            Scene(const Camera& camera);
+            Scene(Camera& camera);
             ~Scene() = default;
 
             const Camera& camera() const { return _camera; }
-            const Camera& camera() { return _camera; }
+            Camera& camera() { return _camera; }
 
-            sf::Image render() const;
-            std::optional<HitResult> simulateRay(const rtx::Ray& ray) const;
+            Image render() const;
+            Image& render(Image& image, std::uint32_t batch_size) const;
+            Color hitcolor(const rtx::HitResult& hit) const;
+            std::optional<HitResult> hitresult(const rtx::Ray& ray) const;
             Vector3d enlightment(const Vector3d& point) const;
 
         protected:
         private:
             std::vector<std::shared_ptr<IPrimitive>> _primitives;
             std::vector<Light> _lights;
-            const Camera& _camera;
+            Camera& _camera;
     };
 }

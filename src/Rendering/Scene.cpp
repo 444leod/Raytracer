@@ -7,10 +7,10 @@
 
 #include "Scene.hpp"
 
-rtx::Scene::Scene(const Camera& camera)
+rtx::Scene::Scene(Camera& camera)
     : _camera(camera)
 {
-    _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 100), Vector3d(9, 0, 2.5), 0.5));
+    //_primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 100), Vector3d(9, 0, 2.5), 0.5));
     _primitives.push_back(std::make_shared<Sphere>(Color(100, 255, 100), Vector3d(5, -5, -1), 1.5));
     _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 255), Vector3d(11, 0, 0), 2));
     _primitives.push_back(std::make_shared<Sphere>(Color(255, 100, 100), Vector3d(7, 5, 1), 1.75));
@@ -19,32 +19,60 @@ rtx::Scene::Scene(const Camera& camera)
     _lights.push_back(Light(Vector3d(8, 0, 8), 50.0));
 }
 
-sf::Image rtx::Scene::render() const
+rtx::Image rtx::Scene::render() const
 {
     auto width = this->_camera.settings().width();
     auto height = this->_camera.settings().height();
-    auto image = sf::Image();
-    image.create(width, height);
+    auto image = Image(width, height);
 
     for (std::uint32_t h = 0; h < height; h++) {
-        double v = (double)h / (double)height;
+        double v = h / static_cast <double>(height);
         for (std::uint32_t w = 0; w < width; w++) {
-            double u = (double)w / (double)width;
+            double u = w / static_cast <double>(width);
             const Ray& ray = this->_camera.ray(u, v);
 
-            auto hit = this->simulateRay(ray);
+            auto hit = this->hitresult(ray);
             if (!hit.has_value())
                 continue;
-            auto color = hit.value().color();
-            auto light_dir = this->enlightment(hit.value().point());
-            auto light_force = light_dir.dot(hit.value().normal());
-            image.setPixel(w, h, (color * light_force).asSf());
+            auto color = this->hitcolor(hit.value());
+            image.set(w, h, color);
         }
     }
     return image;
 }
 
-std::optional<rtx::HitResult> rtx::Scene::simulateRay(const rtx::Ray& ray) const
+rtx::Image& rtx::Scene::render(Image& image, std::uint32_t batch_size) const
+{
+    auto width = this->_camera.settings().width();
+    auto height = this->_camera.settings().height();
+
+    for (std::uint32_t i = 0; i < batch_size; i++) {
+            auto idx = image.randindex();
+            if (!idx.has_value()) return image;
+            double w = idx.value() % width;
+            double h = idx.value() / width;
+            double u = w / static_cast <double>(width);
+            double v = h / static_cast <double>(height);
+            const Ray& ray = this->_camera.ray(u, v);
+
+            auto hit = this->hitresult(ray);
+            if (!hit.has_value())
+                continue;
+            auto color = this->hitcolor(hit.value());
+            image.set(w, h, color);
+    }
+    return image;
+}
+
+rtx::Color rtx::Scene::hitcolor(const rtx::HitResult& hit) const
+{
+    auto color = hit.color();
+    auto light_dir = this->enlightment(hit.point());
+    auto light_force = light_dir.dot(hit.normal());
+    return color * light_force;
+}
+
+std::optional<rtx::HitResult> rtx::Scene::hitresult(const rtx::Ray& ray) const
 {
     for (const auto& prim : this->_primitives) {
         auto hit = prim->hits(ray);

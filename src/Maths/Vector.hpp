@@ -101,7 +101,7 @@ namespace rtx {
                 return a._x * b._x + a._y * b._y + a._z * b._z; }
 
             template<typename U>
-            Vector3 rotate(const Vector3<U>& rotation) {
+            Vector3 rotate(const Vector3<U>& rotation) const {
                 U rx[3][3] = {
                     { 1.0, .0, .0 },
                     { .0, std::cos(rotation.x()), -std::sin(rotation.x()) },

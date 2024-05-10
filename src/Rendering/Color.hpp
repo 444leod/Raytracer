@@ -9,6 +9,7 @@
 
 #include <cstdint>
 #include <algorithm>
+#include <ostream>
 #include <SFML/Graphics/Color.hpp>
 
 namespace rtx {
