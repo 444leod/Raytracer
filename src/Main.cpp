@@ -42,7 +42,7 @@ int main(
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             image.clear(); scene.camera().move(rtx::Vector3d(.0, .1, .0)); }
 
-        scene.render(image, 5000);
+        scene.render(image, 20000);
         win.clear();
         win.draw(image.drawable());
         win.display();

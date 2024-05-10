@@ -34,7 +34,7 @@ const rtx::RenderSettings& rtx::Camera::settings() const
     return this->_settings;
 }
 
-rtx::Vector3d  rtx::Camera::forward() const
+rtx::Vector3d rtx::Camera::forward() const
 {
     return Vector3d(1.0, .0, .0).rotate(this->_rotation);
 }
