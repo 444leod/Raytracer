@@ -34,6 +34,6 @@ namespace rtx {
 
 inline std::ostream& operator<<(std::ostream& stream, const rtx::Color& color)
 {
-    stream << "{" << color.r << ", " << color.g << ", " << color.b << "}";
+    stream << "{" << static_cast<std::uint32_t>(color.r) << ", " << static_cast<std::uint32_t>(color.g) << ", " << static_cast<std::uint32_t>(color.b) << "}";
     return stream;
 }

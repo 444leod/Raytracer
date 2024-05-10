@@ -7,15 +7,15 @@
 
 #include "Scene.hpp"
 
-rtx::Scene::Scene(Camera& camera)
+rtx::Scene::Scene(Camera& camera, [[maybe_unused]] std::vector<std::shared_ptr<IPrimitive>> primitives, [[maybe_unused]] std::vector<Light> lights)
     : _camera(camera)
 {
-    //_primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 100), Vector3d(9, 0, 2.5), 0.5));
-    _primitives.push_back(std::make_shared<Sphere>(Color(100, 255, 100), Vector3d(5, -5, -1), 1.5));
-    _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 255), Vector3d(11, 0, 0), 2));
-    _primitives.push_back(std::make_shared<Sphere>(Color(255, 100, 100), Vector3d(7, 5, 1), 1.75));
-    _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 100), Vector3d(0, 0, -100002), 100000));
-
+    // _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 100), Vector3d(9, 0, 2.5), 0.5));
+    // _primitives.push_back(std::make_shared<Sphere>(Color(100, 255, 100), Vector3d(5, -5, -1), 1.5));
+    // _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 255), Vector3d(11, 0, 0), 2));
+    // _primitives.push_back(std::make_shared<Sphere>(Color(255, 100, 100), Vector3d(7, 5, 1), 1.75));
+    // _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 100), Vector3d(0, 0, -100002), 100000));
+    _primitives = primitives;
     _lights.push_back(Light(Vector3d(8, 0, 8), 50.0));
 }
 

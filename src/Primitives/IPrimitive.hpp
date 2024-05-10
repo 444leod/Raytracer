@@ -20,7 +20,7 @@ namespace rtx {
 
             virtual const Color& color() const = 0;
             virtual const Vector3d& position() const = 0;
-            virtual void setColor(const Color& color) = 0;
+            virtual void setColor(const Color color) = 0;
             virtual void setPosition(const Vector3d& position) = 0;
             virtual std::optional<HitResult> hits(const Ray& ray) const = 0;
         protected:

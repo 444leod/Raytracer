@@ -70,7 +70,7 @@ void rtx::Parser::parseSphere(std::istringstream &iss, std::string key, bool &fo
         verifyEqual(equal);
         sphere.setRadius(radius);
     } else if (key == "color") {
-        u_int8_t r = 0, g = 0, b = 0;
+        std::uint32_t r = 0, g = 0, b = 0;
         iss >> equal >> r >> g >> b;
         if (iss.fail())
             throw ParserException("Invalid syntax, color expects 3 uint8_t");

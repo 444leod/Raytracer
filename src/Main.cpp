@@ -31,11 +31,10 @@ int main(
         return 84;
     }
     
-    // rtx::RenderSettings settings = rtx::RenderSettings(1080, 720, M_PI_2);
-    // rtx::Camera cam = rtx::Camera(settings, rtx::Vector3d(), rtx::Vector3d(.0, .0, .0));
     rtx::Camera cam = parser.getCamera();
     rtx::RenderSettings settings = cam.settings();
-    rtx::Scene scene(cam);
+    std::vector<rtx::Light> tmpLights = std::vector<rtx::Light>();
+    rtx::Scene scene(cam, parser.getPrimitives(), tmpLights);
 
     sf::RenderWindow win(settings.toSf(), "Window");
     rtx::Image image = rtx::Image(settings.width(), settings.height());
