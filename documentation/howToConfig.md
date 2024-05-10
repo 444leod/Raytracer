@@ -1,16 +1,14 @@
 # Guide on the config syntax for the raytracer
 
-camera :
+camera:
 resolution = uint uint
 position = double double double
 rotation = double double double
 fov = double
 
-lights :
-ambient = double
-diffuse = double
-positions = double double double, double double double ..
-directional = ?? (not implemented yet)
+light:
+strength = double
+positions = double double double
 
 sphere:
 position = double double double

@@ -51,7 +51,8 @@ namespace rtx {
             std::string _rest;
 
             void verifyEqual(std::string equal);
-            std::vector<std::string> split(std::string s, std::string delimiter);
             void parseCamera(std::istringstream& iss, std::string key, bool& foundCamera);
+            void parseSphere(std::istringstream &iss, std::string key, bool &foundSphere);
+            void addNewSphere();
     };
 }

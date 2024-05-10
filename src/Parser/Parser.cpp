@@ -12,22 +12,6 @@ rtx::Parser::Parser()
     _camera = std::make_shared<rtx::Camera>();
 }
 
-std::vector<std::string> rtx::Parser::split(std::string s, std::string delimiter)
-{
-    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
-    std::string token;
-    std::vector<std::string> res;
-
-    while ((pos_end = s.find(delimiter, pos_start)) != std::string::npos)
-    {
-        token = s.substr(pos_start, pos_end - pos_start);
-        pos_start = pos_end + delim_len;
-        res.push_back(token);
-    }
-    res.push_back(s.substr(pos_start));
-    return res;
-}
-
 void rtx::Parser::runParser(std::string fileName)
 {
     if (fileName.empty())
@@ -38,6 +22,7 @@ void rtx::Parser::runParser(std::string fileName)
 
     std::string line;
     bool foundCamera = false;
+    bool foundSphere = false;
     while (std::getline(file, line)) {
         std::istringstream iss(line);
         std::string key;
@@ -46,6 +31,11 @@ void rtx::Parser::runParser(std::string fileName)
             foundCamera = true;
         } else if (foundCamera) {
             parseCamera(iss, key, foundCamera);
+        } else if (key == "sphere:") {
+            foundSphere = true;
+            addNewSphere();
+        } else if (foundSphere) {
+            parseSphere(iss, key, foundSphere);
         }
     }
 }
@@ -54,6 +44,42 @@ void rtx::Parser::verifyEqual(std::string equal)
 {
     if (equal != "=")
         throw ParserException("Invalid syntax, expected '='");
+}
+
+void rtx::Parser::addNewSphere()
+{
+    _primitives.push_back(std::make_shared<rtx::Sphere>());
+}
+
+void rtx::Parser::parseSphere(std::istringstream &iss, std::string key, bool &foundSphere)
+{
+    std::string equal;
+    rtx::Sphere& sphere = dynamic_cast<rtx::Sphere&>(*_primitives.back());
+
+    if (key == "position") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        sphere.setPosition(Vector3d(x, y, z));
+    } else if (key == "radius") {
+        double radius = 0;
+        iss >> equal >> radius;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, radius expects a double");
+        verifyEqual(equal);
+        sphere.setRadius(radius);
+    } else if (key == "color") {
+        double r = 0, g = 0, b = 0;
+        iss >> equal >> r >> g >> b;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, color expects 3 doubles");
+        verifyEqual(equal);
+        sphere.setColor(Color(r, g, b));
+    } else {
+        foundSphere = false;
+    }
 }
 
 void rtx::Parser::parseCamera(std::istringstream &iss, std::string key, bool &foundCamera)
