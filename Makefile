@@ -9,6 +9,7 @@ NAME	:= raytracer
 
 SRC	:=	src/Main.cpp	\
 		src/Maths/Ray.cpp	\
+		src/Maths/Delta.cpp \
 		src/Parser/Parser.cpp	\
 		src/Rendering/Image.cpp	\
 		src/Rendering/Camera.cpp	\
@@ -16,6 +17,11 @@ SRC	:=	src/Main.cpp	\
 		src/Primitives/Sphere.cpp	\
 		src/Primitives/Triangle.cpp	\
 		src/Primitives/Plane.cpp	\
+		src/Primitives/Cone.cpp \
+		src/Primitives/Cylinder.cpp \
+		src/Primitives/LimitedCylinder.cpp \
+		src/Primitives/LimitedCone.cpp \
+		src/Primitives/Triangle.cpp \
 		src/Lighting/Light.cpp	\
 
 OBJ	:=	$(SRC:.cpp=.o)

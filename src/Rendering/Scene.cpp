@@ -6,6 +6,7 @@
 */
 
 #include "Scene.hpp"
+#include <thread>
 
 rtx::Scene::Scene(Camera& camera, [[maybe_unused]] std::vector<std::shared_ptr<IPrimitive>> primitives, [[maybe_unused]] std::vector<Light> lights)
     : _camera(camera)
@@ -47,21 +48,33 @@ rtx::Image& rtx::Scene::render(Image& image, std::uint32_t batch_size) const
     auto width = this->_camera.settings().width();
     auto height = this->_camera.settings().height();
 
-    for (std::uint32_t i = 0; i < batch_size; i++) {
-            auto idx = image.randindex();
-            if (!idx.has_value()) return image;
-            double w = idx.value() % width;
-            double h = idx.value() / width;
-            double u = w / static_cast <double>(width);
-            double v = h / static_cast <double>(height);
-            const Ray& ray = this->_camera.ray(u, v);
+    std::vector<std::thread> threads;
+    int num_threads = std::thread::hardware_concurrency();
 
-            auto hit = this->hitresult(ray);
-            if (!hit.has_value())
-                continue;
-            auto color = this->hitcolor(hit.value());
-            image.set(w, h, color);
+    for (int t = 0; t < num_threads; ++t) {
+        threads.emplace_back([&, t]() {
+            for (std::uint32_t i = t; i < batch_size - 1; i += num_threads) {
+                auto idx = image.randindex();
+                if (!idx.has_value()) return;
+                double w = idx.value() % width;
+                double h = idx.value() / width;
+                double u = w / static_cast <double>(width);
+                double v = h / static_cast <double>(height);
+                const Ray& ray = this->_camera.ray(u, v);
+
+                auto hit = this->hitresult(ray);
+                if (!hit.has_value())
+                    continue;
+                auto color = this->hitcolor(hit.value());
+                image.set(w, h, color);
+            }
+        });
     }
+
+    for (auto& thread : threads) {
+        thread.join();
+    }
+
     return image;
 }
 
