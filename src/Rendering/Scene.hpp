@@ -14,6 +14,8 @@
 #include "Camera.hpp"
 #include "Sphere.hpp"
 #include "Plane.hpp"
+#include "Cone.hpp"
+#include "Cylinder.hpp"
 #include "Light.hpp"
 
 namespace rtx {
