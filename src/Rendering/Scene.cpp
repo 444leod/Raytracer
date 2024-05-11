@@ -16,7 +16,8 @@ rtx::Scene::Scene(Camera& camera, [[maybe_unused]] std::vector<std::shared_ptr<I
     // _primitives.push_back(std::make_shared<Sphere>(Color(255, 100, 100), Vector3d(7, 5, 1), 1.75));
     // _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 100), Vector3d(0, 0, -100002), 100000));
     _primitives = primitives;
-    _lights.push_back(Light(Vector3d(8, 0, 8), 50.0));
+    _lights = lights;
+    // _lights.push_back(Light(Vector3d(8, 0, 8), 50.0));
 }
 
 rtx::Image rtx::Scene::render() const

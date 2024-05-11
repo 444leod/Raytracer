@@ -33,8 +33,7 @@ int main(
     
     rtx::Camera cam = parser.getCamera();
     rtx::RenderSettings settings = cam.settings();
-    std::vector<rtx::Light> tmpLights = std::vector<rtx::Light>();
-    rtx::Scene scene(cam, parser.getPrimitives(), tmpLights);
+    rtx::Scene scene(cam, parser.getPrimitives(), parser.getLights());
 
     sf::RenderWindow win(settings.toSf(), "Window");
     rtx::Image image = rtx::Image(settings.width(), settings.height());

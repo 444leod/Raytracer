@@ -20,21 +20,26 @@ void rtx::Parser::runParser(std::string fileName)
         throw ParserException("Could not open file");
 
     std::string line;
-    bool foundCamera = false;
-    bool foundSphere = false;
     while (std::getline(file, line)) {
         std::istringstream iss(line);
         std::string key;
         iss >> key;
         if (key == "camera:") {
-            foundCamera = true;
-        } else if (foundCamera) {
-            parseCamera(iss, key, foundCamera);
-        } else if (key == "sphere:") {
-            foundSphere = true;
-            addNewSphere();
-        } else if (foundSphere) {
-            parseSphere(iss, key, foundSphere);
+            _currentlyParsing = PARSABLE::CAMERA;
+        }
+        else if (key == "sphere:") {
+            _primitives.push_back(std::make_shared<rtx::Sphere>());
+            _currentlyParsing = PARSABLE::SPHERE;
+        }
+        else if (key == "light:") {
+            _lights.push_back(Light());
+            _currentlyParsing = PARSABLE::LIGHT;
+        }
+        switch (_currentlyParsing) {
+            case PARSABLE::CAMERA: parseCamera(iss, key); break;
+            case PARSABLE::SPHERE: parseSphere(iss, key); break;
+            case PARSABLE::LIGHT: parseLight(iss, key); break;
+            default: break;
         }
     }
 }
@@ -45,12 +50,7 @@ void rtx::Parser::verifyEqual(std::string equal)
         throw ParserException("Invalid syntax, expected '='");
 }
 
-void rtx::Parser::addNewSphere()
-{
-    _primitives.push_back(std::make_shared<rtx::Sphere>());
-}
-
-void rtx::Parser::parseSphere(std::istringstream &iss, std::string key, bool &foundSphere)
+void rtx::Parser::parseSphere(std::istringstream &iss, std::string key)
 {
     std::string equal;
     rtx::Sphere& sphere = dynamic_cast<rtx::Sphere&>(*_primitives.back());
@@ -76,12 +76,10 @@ void rtx::Parser::parseSphere(std::istringstream &iss, std::string key, bool &fo
             throw ParserException("Invalid syntax, color expects 3 uint8_t");
         verifyEqual(equal);
         sphere.setColor(Color(r, g, b));
-    } else {
-        foundSphere = false;
     }
 }
 
-void rtx::Parser::parseCamera(std::istringstream &iss, std::string key, bool &foundCamera)
+void rtx::Parser::parseCamera(std::istringstream &iss, std::string key)
 {
     std::string equal;
 
@@ -113,8 +111,28 @@ void rtx::Parser::parseCamera(std::istringstream &iss, std::string key, bool &fo
             throw ParserException("Invalid syntax, fov expects a double");
         verifyEqual(equal);
         _camera.setFov(fov);
-    } else {
-        foundCamera = false;
+    }
+}
+
+void rtx::Parser::parseLight(std::istringstream &iss, std::string key)
+{
+    std::string equal;
+    Light& light = _lights.back();
+
+    if (key == "position") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        light.setPosition(Vector3d(x, y, z));
+    } else if (key == "strength") {
+        double strength = 0;
+        iss >> equal >> strength;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, strength expects a double");
+        verifyEqual(equal);
+        light.setStrength(strength);
     }
 }
 
@@ -123,12 +141,10 @@ std::vector<std::shared_ptr<rtx::IPrimitive>> rtx::Parser::getPrimitives() const
     return _primitives;
 }
 
-/*
-std::vector<Light> getLights() const
+std::vector<rtx::Light> rtx::Parser::getLights() const
 {
     return _lights;
 }
-*/
 
 rtx::Camera rtx::Parser::getCamera() const
 {

@@ -21,6 +21,8 @@ namespace rtx {
 
             const Vector3d& position() const { return this->_position; }
             double strength() const { return this->_strength; }
+            void setPosition(const Vector3d& position) { this->_position = position; }
+            void setStrength(double strength) { this->_strength = strength; }
 
         protected:
         private:
