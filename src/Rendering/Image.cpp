@@ -6,6 +6,7 @@
 */
 
 #include "Image.hpp"
+#include <mutex>
 
 rtx::Image::Image(std::uint32_t width, std::uint32_t height)
     : _width(width), _height(height)
@@ -26,12 +27,15 @@ rtx::Image::~Image()
 
 void rtx::Image::set(std::uint32_t x, std::uint32_t y, Color color)
 {
+    static std::mutex mtx;
     auto i = this->_width * 4 * y + x * 4;
 
+    mtx.lock();
     this->_array[i + 0] = color.r;
     this->_array[i + 1] = color.g;
     this->_array[i + 2] = color.b;
     this->_array[i + 3] = 255;
+    mtx.unlock();
 }
 
 void rtx::Image::clear(Color color)
