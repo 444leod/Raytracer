@@ -15,7 +15,7 @@ namespace rtx {
     */
     class Light {
         public:
-            Light() = default;
+            Light() { this->_position = Vector3d(0, 0, 0); this->_strength = 1; };
             Light(Vector3d position, double strength);
             ~Light() = default;
 

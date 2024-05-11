@@ -12,7 +12,7 @@
 namespace rtx {
     class Sphere : public APrimitive {
         public:
-            Sphere() = default;
+            Sphere();
             Sphere(Color color, Vector3d position, double radius);
             ~Sphere() = default;
 

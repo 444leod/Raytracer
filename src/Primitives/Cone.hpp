@@ -12,7 +12,7 @@
 namespace rtx {
     class Cone : public APrimitive {
         public:
-            Cone() = delete;
+            Cone();
             Cone(Color color, Vector3d apex, Vector3d axis, double theta);
             ~Cone() = default;
 

@@ -12,7 +12,7 @@
 namespace rtx {
     class LimitedCone : public APrimitive {
         public:
-            LimitedCone() = delete;
+            LimitedCone();
             LimitedCone(Color color, Vector3d apex, Vector3d axis, double theta, double height);
             ~LimitedCone() = default;
 

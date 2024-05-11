@@ -12,7 +12,7 @@
 namespace rtx {
     class LimitedCylinder : public APrimitive {
         public:
-            LimitedCylinder() = delete;
+            LimitedCylinder();
             LimitedCylinder(Color color, Vector3d position, Vector3d axis, double radius, double height);
             ~LimitedCylinder() = default;
 

@@ -44,8 +44,9 @@ namespace rtx
             const RenderSettings& settings() const;
             void setPosition(const Vector3d& position) { this->_position = position; }
             void setRotation(const Vector3d& rotation) { this->_rotation = rotation; }
-            void setFov(double fov) { _settings.setFov(fov); }
-            void setResolution(std::uint32_t width, std::uint32_t height) { _settings.setResolution(width, height); }
+            void setFov(double fov);
+            void setResolution(std::uint32_t width, std::uint32_t height);
+            void updatePlane();
             Ray ray(double x, double y) const;
             void rotate(const Vector3d& rotation);
             void move(const Vector3d& movement);

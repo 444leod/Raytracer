@@ -7,7 +7,7 @@
 namespace rtx {
     class Triangle : public APrimitive {
     public:
-        Triangle() = delete;
+        Triangle();
         Triangle(Color color, Vector3d p1, Vector3d p2, Vector3d p3);
         ~Triangle() = default;
 

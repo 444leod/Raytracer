@@ -8,6 +8,11 @@
 #include "Cone.hpp"
 #include "Delta.hpp"
 
+rtx::Cone::Cone()
+    : APrimitive(Vector3d(0, 0, 0), Color(0, 0, 0)), _apex(Vector3d(0, 0, 0)), _axis(Vector3d(0, 0, 0)), _theta(0)
+{
+}
+
 rtx::Cone::Cone(Color color, Vector3d apex, Vector3d axis, double theta)
     : APrimitive(apex, color), _apex(apex), _axis(axis.normalized()), _theta(theta)
 {

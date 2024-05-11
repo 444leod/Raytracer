@@ -12,7 +12,7 @@
 namespace rtx {
     class Cylinder : public APrimitive {
         public:
-            Cylinder() = delete;
+            Cylinder();
             Cylinder(Color color, Vector3d position, Vector3d axis, double radius);
             ~Cylinder() = default;
 
