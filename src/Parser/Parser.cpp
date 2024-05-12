@@ -29,8 +29,8 @@ void rtx::Parser::runParser(std::string fileName)
         } else if (key == "sphere:") {
             _primitives.push_back(std::make_shared<rtx::Sphere>());
             _currentlyParsing = PARSABLE::SPHERE;
-        } else if (key == "light:") {
-            _lights.push_back(Light());
+        } else if (key == "pointlight:") {
+            _lights.push_back(std::make_shared<PointLight>());
             _currentlyParsing = PARSABLE::LIGHT;
         } else if (key == "plane:") {
             _primitives.push_back(std::make_shared<rtx::Plane>());
@@ -139,7 +139,7 @@ void rtx::Parser::parseCamera(std::istringstream &iss, std::string key)
 void rtx::Parser::parseLight(std::istringstream &iss, std::string key)
 {
     std::string equal;
-    Light& light = _lights.back();
+    std::shared_ptr<ILight> light = _lights.back();
 
     if (key == "position") {
         double x = 0, y = 0, z = 0;
@@ -147,14 +147,14 @@ void rtx::Parser::parseLight(std::istringstream &iss, std::string key)
         if (iss.fail())
             throw ParserException("Invalid syntax, position expects 3 doubles");
         verifyEqual(equal);
-        light.setPosition(Vector3d(x, y, z));
+        light->setPosition(Vector3d(x, y, z));
     } else if (key == "strength") {
         double strength = 0;
         iss >> equal >> strength;
         if (iss.fail())
             throw ParserException("Invalid syntax, strength expects a double");
         verifyEqual(equal);
-        light.setStrength(strength);
+        light->setStrength(strength);
     }
 }
 
@@ -387,7 +387,7 @@ std::vector<std::shared_ptr<rtx::IPrimitive>> rtx::Parser::getPrimitives() const
     return _primitives;
 }
 
-std::vector<rtx::Light> rtx::Parser::getLights() const
+std::vector<std::shared_ptr<rtx::ILight>> rtx::Parser::getLights() const
 {
     return _lights;
 }

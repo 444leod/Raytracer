@@ -3,9 +3,12 @@ resolution = 1080 720
 position = 0 0 0
 rotation = 0 0 0
 fov = 70
-light:
+pointlight:
 strength = 50.0
 position = 8 0 8
+pointlight:
+strength = 20.0
+position = 16 -16 0
 sphere:
 color = 100 100 100
 position = 9 0 2.5

@@ -16,8 +16,10 @@ namespace rtx {
         public:
             virtual ~ILight() = default;
 
-            virtual const Color& color() = 0;
-            virtual const Vector3d& position() = 0;
+            virtual const Vector3d& position() const = 0;
+            virtual double strength() const = 0;
+            virtual void setPosition(const Vector3d& position) = 0;
+            virtual void setStrength(double strength) = 0;
 
             /**
              * @brief Computes the resulted color of a `HitResult` enlighted
@@ -26,7 +28,7 @@ namespace rtx {
              * @param hit The `HitResult` from a `Ray` simulation.
              * @param obstructed Wether there are obstacles between this light and given `HitResult` point.
             */
-            virtual Color enlightement(const HitResult& hit, bool obstructed) = 0;
+            virtual double enlightement(const HitResult& hit, bool obstructed) const = 0;
 
         protected:
         private:

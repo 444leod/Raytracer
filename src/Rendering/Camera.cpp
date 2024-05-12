@@ -72,5 +72,5 @@ void rtx::Camera::setFov(double fov)
 void rtx::Camera::setResolution(std::uint32_t width, std::uint32_t height)
 {
     _settings.setResolution(width, height);
-    updatePlane();    
+    updatePlane();
 }

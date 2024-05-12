@@ -30,7 +30,7 @@ int main(
         std::cerr << e.what() << std::endl;
         return 84;
     }
-    
+
     rtx::Camera cam = parser.getCamera();
     rtx::RenderSettings settings = cam.settings();
     rtx::Scene scene(cam, parser.getPrimitives(), parser.getLights());

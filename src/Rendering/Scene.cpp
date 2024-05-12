@@ -8,11 +8,9 @@
 #include "Scene.hpp"
 #include <thread>
 
-rtx::Scene::Scene(Camera& camera, std::vector<std::shared_ptr<IPrimitive>> primitives, std::vector<Light> lights)
-    : _camera(camera)
+rtx::Scene::Scene(Camera& camera, std::vector<std::shared_ptr<IPrimitive>> primitives, std::vector<std::shared_ptr<ILight>> lights)
+    : _camera(camera), _primitives(primitives), _lights(lights)
 {
-    _primitives = primitives;
-    _lights = lights;
 }
 
 rtx::Image rtx::Scene::render() const
@@ -74,10 +72,7 @@ rtx::Image& rtx::Scene::render(Image& image, std::uint32_t batch_size) const
 
 rtx::Color rtx::Scene::hitcolor(const rtx::HitResult& hit) const
 {
-    auto color = hit.color();
-    auto light_dir = this->enlightment(hit.point());
-    auto light_force = light_dir.dot(hit.normal());
-    return color * light_force;
+    return hit.color() * this->enlightment(hit);
 }
 
 std::optional<rtx::HitResult> rtx::Scene::hitresult(const rtx::Ray& ray) const
@@ -99,23 +94,24 @@ std::optional<rtx::HitResult> rtx::Scene::hitresult(const rtx::Ray& ray) const
     return min_hit.second;
 }
 
-rtx::Vector3d rtx::Scene::enlightment(const Vector3d& point) const
+double rtx::Scene::enlightment(const HitResult& hit) const
 {
+    double intensity = .0;
+
     for (const auto& light : this->_lights) {
-        Vector3d dir = (light.position() - point).normalized();
+        Vector3d dir = (light->position() - hit.point()).normalized();
         bool obstructed = false;
         std::optional<HitResult> result;
 
         for (const auto& prim : this->_primitives) {
-            auto ray = Ray(point, dir);
-            auto hit = prim->hits(ray);
-            if (!hit.has_value())
+            auto ray = Ray(hit.point(), dir);
+            auto h = prim->hits(ray);
+            if (!h.has_value())
                 continue;
             obstructed = true;
             break;
         }
-        if (!obstructed)
-            return dir;
+        intensity += light->enlightement(hit, obstructed);
     }
-    return Vector3d();
+    return intensity;
 }

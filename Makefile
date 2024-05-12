@@ -21,7 +21,7 @@ SRC	:=	src/Main.cpp	\
 		src/Primitives/Cylinder.cpp \
 		src/Primitives/LimitedCylinder.cpp \
 		src/Primitives/LimitedCone.cpp \
-		src/Lighting/Light.cpp	\
+		src/Lighting/PointLight.cpp	\
 
 OBJ	:=	$(SRC:.cpp=.o)
 

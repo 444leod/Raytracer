@@ -13,7 +13,7 @@
 #include "Camera.hpp"
 #include "Sphere.hpp"
 #include "Plane.hpp"
-#include "Light.hpp"
+#include "PointLight.hpp"
 #include "Cone.hpp"
 #include "Cylinder.hpp"
 #include "LimitedCone.hpp"
@@ -29,7 +29,7 @@ namespace rtx {
             ~Parser() = default;
             void runParser(std::string file);
             std::vector<std::shared_ptr<rtx::IPrimitive>> getPrimitives() const;
-            std::vector<rtx::Light> getLights() const;
+            std::vector<std::shared_ptr<rtx::ILight>> getLights() const;
             rtx::Camera getCamera() const;
 
             enum PARSABLE {
@@ -62,7 +62,7 @@ namespace rtx {
 
         private:
             std::vector<std::shared_ptr<rtx::IPrimitive>> _primitives;
-            std::vector<rtx::Light> _lights;
+            std::vector<std::shared_ptr<rtx::ILight>> _lights;
             rtx::Camera _camera = rtx::Camera(rtx::RenderSettings(1080, 720, M_PI_2), Vector3d(), Vector3d());
             std::string _rest;
             PARSABLE _currentlyParsing = PARSABLE::NONE;
