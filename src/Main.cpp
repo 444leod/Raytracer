@@ -69,6 +69,8 @@ int main(
             }
             scene.loadNewScene(parser.getPrimitives(), parser.getLights());
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+            scene.reset();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             image.clear(); scene.camera().move(rtx::Vector3d(.0, .0, .1)); }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {

@@ -33,6 +33,7 @@ namespace rtx {
             std::optional<HitResult> hitresult(const rtx::Ray& ray) const;
             double enlightment(const HitResult& point) const;
             void loadNewScene(std::vector<std::shared_ptr<IPrimitive>> primitives, std::vector<std::shared_ptr<ILight>> lights);
+            void reset();
 
         protected:
         private:

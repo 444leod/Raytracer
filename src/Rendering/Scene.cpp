@@ -126,3 +126,9 @@ void rtx::Scene::loadNewScene(std::vector<std::shared_ptr<rtx::IPrimitive>> prim
     for (const auto& light : lights)
         this->_lights.push_back(light);
 }
+
+void rtx::Scene::reset()
+{
+    this->_primitives.clear();
+    this->_lights.clear();
+}
