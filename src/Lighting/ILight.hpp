@@ -31,6 +31,8 @@ namespace rtx {
             */
             virtual double enlightement(const HitResult& hit, bool obstructed) const = 0;
 
+            virtual double strength() const = 0;
+            virtual void setStrength(double strength) = 0;
         protected:
         private:
     };

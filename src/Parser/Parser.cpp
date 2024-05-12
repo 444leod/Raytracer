@@ -156,6 +156,13 @@ void rtx::Parser::parsePointLight(std::istringstream &iss, std::string key)
             throw ParserException("Invalid syntax, position expects 3 doubles");
         verifyEqual(equal);
         light.setPosition(Vector3d(x, y, z));
+    } else if (key == "strength") {
+        double s = 0;
+        iss >> equal >> s;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        light.setStrength(s);
     }
 }
 
@@ -171,6 +178,13 @@ void rtx::Parser::parseDirectionalLight(std::istringstream &iss, std::string key
             throw ParserException("Invalid syntax, position expects 3 doubles");
         verifyEqual(equal);
         light.setDirection(Vector3d(x, y, z));
+    } else if (key == "strength") {
+        double s = 0;
+        iss >> equal >> s;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        light.setStrength(s);
     }
 }
 

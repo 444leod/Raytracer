@@ -7,13 +7,13 @@
 
 #pragma once
 
-#include "ILight.hpp"
+#include "ALight.hpp"
 
 namespace rtx {
-    class PointLight : public ILight {
+    class PointLight : public ALight {
         public:
-            PointLight();
-            PointLight(const Vector3d& position);
+            PointLight() = default;
+            PointLight(double strength, const Vector3d& position);
             ~PointLight() = default;
 
             virtual const Vector3d& position() const { return this->_position; }

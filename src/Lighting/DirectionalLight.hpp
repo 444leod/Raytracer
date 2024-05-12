@@ -7,13 +7,13 @@
 
 #pragma once
 
-#include "ILight.hpp"
+#include "ALight.hpp"
 
 namespace rtx {
-    class DirectionalLight : public ILight {
+    class DirectionalLight : public ALight {
         public:
             DirectionalLight() = default;
-            DirectionalLight(const Vector3d& direction);
+            DirectionalLight(double strength, const Vector3d& direction);
             ~DirectionalLight() = default;
 
             const Vector3d& direction() const { return this->_direction; }

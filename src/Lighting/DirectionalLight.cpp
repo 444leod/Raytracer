@@ -7,8 +7,8 @@
 
 #include "DirectionalLight.hpp"
 
-rtx::DirectionalLight::DirectionalLight(const Vector3d& direction)
-    : _direction(direction)
+rtx::DirectionalLight::DirectionalLight(double strength, const Vector3d& direction)
+    : ALight(strength), _direction(direction)
 {
 }
 
@@ -16,7 +16,7 @@ double rtx::DirectionalLight::enlightement(const rtx::HitResult& hit, bool obstr
 {
     if (obstructed)
         return .0;
-    return (this->_direction * -1).normalized().dot(hit.normal());
+    return (this->_direction * -1).normalized().dot(hit.normal()) * this->_strength;
 }
 
 rtx::Vector3d rtx::DirectionalLight::lightDirection([[maybe_unused]]const rtx::Vector3d& point) const

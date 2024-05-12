@@ -8,12 +8,13 @@
 #include "AmbiantLight.hpp"
 
 rtx::AmbiantLight::AmbiantLight(const double strength)
-    : _strength(strength)
+    : ALight(strength)
 {
 }
 
 double rtx::AmbiantLight::enlightement(
-    [[maybe_unused]]const rtx::HitResult& hit, [[maybe_unused]]bool obstructed) const
+    [[maybe_unused]]const rtx::HitResult& hit,
+    [[maybe_unused]]bool obstructed) const
 {
     return this->_strength;
 }
