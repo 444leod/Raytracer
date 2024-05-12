@@ -11,7 +11,7 @@ rtx::IPrimitiveFactory::IPrimitiveFactory()
 {
 }
 
-void rtx::IPrimitiveFactory::createIPrimitive(std::string key, rtx::PARSABLE& type, std::vector<std::shared_ptr<rtx::IPrimitive>>& primitives)
+void rtx::IPrimitiveFactory::tryCreateIPrimitive(std::string key, rtx::PARSABLE& type, std::vector<std::shared_ptr<rtx::IPrimitive>>& primitives)
 {
     if (_primitiveMap.find(key) == _primitiveMap.end())
         return;

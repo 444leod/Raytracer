@@ -30,7 +30,7 @@ void rtx::Parser::runParser(std::string fileName)
             _lights.push_back(Light());
             _currentlyParsing = PARSABLE::LIGHT;
         }
-        _primitiveFactory.createIPrimitive(key, _currentlyParsing, _primitives);
+        _primitiveFactory.tryCreateIPrimitive(key, _currentlyParsing, _primitives);
         switch (_currentlyParsing) {
             case PARSABLE::CAMERA: parseCamera(iss, key); break;
             case PARSABLE::SPHERE: parseSphere(iss, key); break;

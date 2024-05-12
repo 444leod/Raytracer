@@ -27,7 +27,7 @@ namespace rtx {
         public:
             IPrimitiveFactory();
             ~IPrimitiveFactory() = default;
-            void createIPrimitive(std::string key, rtx::PARSABLE& type, std::vector<std::shared_ptr<rtx::IPrimitive>>& primitives);
+            void tryCreateIPrimitive(std::string key, rtx::PARSABLE& type, std::vector<std::shared_ptr<rtx::IPrimitive>>& primitives);
 
         private:
             std::map<std::string, rtx::PARSABLE> _primitiveMap {
