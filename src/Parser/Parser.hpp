@@ -14,6 +14,11 @@
 #include "Sphere.hpp"
 #include "Plane.hpp"
 #include "Light.hpp"
+#include "Cone.hpp"
+#include "Cylinder.hpp"
+#include "LimitedCone.hpp"
+#include "LimitedCylinder.hpp"
+#include "Triangle.hpp"
 
 #pragma once
 

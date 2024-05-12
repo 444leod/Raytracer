@@ -35,12 +35,16 @@ void rtx::Parser::runParser(std::string fileName)
         } else if (key == "plane:") {
             _primitives.push_back(std::make_shared<rtx::Plane>());
             _currentlyParsing = PARSABLE::PLANE;
+        } else if (key == "cone:") {
+            _primitives.push_back(std::make_shared<rtx::Cone>());
+            _currentlyParsing = PARSABLE::CONE;
         }
         switch (_currentlyParsing) {
             case PARSABLE::CAMERA: parseCamera(iss, key); break;
             case PARSABLE::SPHERE: parseSphere(iss, key); break;
             case PARSABLE::LIGHT: parseLight(iss, key); break;
             case PARSABLE::PLANE: parsePlane(iss, key); break;
+            case PARSABLE::CONE: parseCone(iss, key); break;
             default: break;
         }
     }
@@ -164,6 +168,42 @@ void rtx::Parser::parsePlane(std::istringstream &iss, std::string key)
             throw ParserException("Invalid syntax, color expects 3 uint8_t");
         verifyEqual(equal);
         plane.setColor(Color(r, g, b));
+    }
+}
+
+void rtx::Parser::parseCone(std::istringstream &iss, std::string key)
+{
+    std::string equal;
+    rtx::Cone& cone = dynamic_cast<rtx::Cone&>(*_primitives.back());
+
+    if (key == "color") {
+        std::uint32_t r = 0, g = 0, b = 0;
+        iss >> equal >> r >> g >> b;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, color expects 3 uint8_t");
+        verifyEqual(equal);
+        cone.setColor(Color(r, g, b));
+    } else if (key == "apex") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, apex expects 3 doubles");
+        verifyEqual(equal);
+        cone.setApex(Vector3d(x, y, z));
+    } else if (key == "axis") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, axis expects 3 doubles");
+        verifyEqual(equal);
+        cone.setAxis(Vector3d(x, y, z));
+    } else if (key == "theta") {
+        double theta = 0;
+        iss >> equal >> theta;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, theta expects a double");
+        verifyEqual(equal);
+        cone.setTheta(theta);
     }
 }
 

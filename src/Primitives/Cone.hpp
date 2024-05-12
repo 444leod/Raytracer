@@ -18,6 +18,9 @@ namespace rtx {
 
             virtual std::optional<HitResult> hits(const Ray& ray) const;
             bool _is_not_shadow(double k, const rtx::Ray& ray) const;
+            void setApex(const Vector3d& apex) { this->_apex = apex; }
+            void setAxis(const Vector3d& axis) { this->_axis = axis; }
+            void setTheta(const double& theta) { this->_theta = theta; }
 
         protected:
         private:
