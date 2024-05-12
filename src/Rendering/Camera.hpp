@@ -23,6 +23,7 @@ namespace rtx
             ~RenderSettings() = default;
             std::uint32_t width() const { return _width; }
             std::uint32_t height() const { return _height; }
+            void setResolution(std::uint32_t width, std::uint32_t height) { this->_width = width; this->_height = height; }
             double fov() const { return _fov; }
             void setFov(double fov) { this->_fov = fov; }
             sf::VideoMode toSf() const { return sf::VideoMode(this->_width, this->_height); }
@@ -41,6 +42,11 @@ namespace rtx
             const Vector3d& position() const;
             const Vector3d& rotation() const;
             const RenderSettings& settings() const;
+            void setPosition(const Vector3d& position) { this->_position = position; }
+            void setRotation(const Vector3d& rotation) { this->_rotation = rotation; }
+            void setFov(double fov);
+            void setResolution(std::uint32_t width, std::uint32_t height);
+            void updatePlane();
             Ray ray(double x, double y) const;
             void rotate(const Vector3d& rotation);
             void move(const Vector3d& movement);

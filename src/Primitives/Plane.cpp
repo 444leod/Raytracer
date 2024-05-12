@@ -7,6 +7,11 @@
 
 #include "Plane.hpp"
 
+rtx::Plane::Plane()
+    : APrimitive(Vector3d(0, 0, 0), Color(0, 0, 0)), _normal(Vector3d(0, 0, 0))
+{
+}
+
 rtx::Plane::Plane(Color color, Vector3d position, Vector3d normal)
     : APrimitive(position, color), _normal(normal.normalized())
 {
