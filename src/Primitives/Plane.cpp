@@ -27,13 +27,14 @@ rtx::Plane::Plane(Color color, Vector3d position, Vector3d normal)
 */
 std::optional<rtx::HitResult> rtx::Plane::hits(const Ray& ray) const
 {
-    float denom = this->_normal.dot(ray.direction());
-    if (std::abs(denom) > 0.0001f)
-    {
-        float k = (this->_position - ray.origin()).dot(this->normal()) / denom;
-        if (k < 0) return std::nullopt;
-        auto p = ray.origin() + ray.direction() * k;
-        return HitResult(p, this->_normal, this->_color);
-    }
-    return std::nullopt;
+    double dot = ray.direction().dot(this->_normal);
+    if (std::abs(dot) < 1e-6)
+        return std::nullopt;
+    Vector3d planeToRay = this->_position - ray.origin();
+    double k = planeToRay.dot(this->_normal) / dot;
+    if (k < 0.0001)
+        return std::nullopt;
+
+    Vector3d point = ray.origin() + ray.direction() * k;
+    return HitResult(point, this->_normal, this->_color);
 }
