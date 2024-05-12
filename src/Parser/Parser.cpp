@@ -59,6 +59,7 @@ void rtx::Parser::runParser(std::string fileName)
             case PARSABLE::CONE: parseCone(iss, key); break;
             case PARSABLE::CYLINDER: parseCylinder(iss, key); break;
             case PARSABLE::LIMITEDCONE: parseLimitedCone(iss, key); break;
+            case PARSABLE::LIMITEDCYLINDER: parseLimitedCylinder(iss, key); break;
             default: break;
         }
     }
@@ -298,6 +299,49 @@ void rtx::Parser::parseLimitedCone(std::istringstream &iss, std::string key)
             throw ParserException("Invalid syntax, height expects a double");
         verifyEqual(equal);
         limitedCone.setHeight(height);
+    }
+}
+
+void rtx::Parser::parseLimitedCylinder(std::istringstream &iss, std::string key)
+{
+    std::string equal;
+    rtx::LimitedCylinder& limitedCylinder = dynamic_cast<rtx::LimitedCylinder&>(*_primitives.back());
+
+    if (key == "color") {
+        std::uint32_t r = 0, g = 0, b = 0;
+        iss >> equal >> r >> g >> b;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, color expects 3 uint8_t");
+        verifyEqual(equal);
+        limitedCylinder.setColor(Color(r, g, b));
+    } else if (key == "position") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        limitedCylinder.setPosition(Vector3d(x, y, z));
+    } else if (key == "axis") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, axis expects 3 doubles");
+        verifyEqual(equal);
+        limitedCylinder.setAxis(Vector3d(x, y, z));
+    } else if (key == "radius") {
+        double radius = 0;
+        iss >> equal >> radius;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, radius expects a double");
+        verifyEqual(equal);
+        limitedCylinder.setRadius(radius);
+    } else if (key == "height") {
+        double height = 0;
+        iss >> equal >> height;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, height expects a double");
+        verifyEqual(equal);
+        limitedCylinder.setHeight(height);
     }
 }
 
