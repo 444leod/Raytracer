@@ -8,6 +8,11 @@
 #include "Cylinder.hpp"
 #include "Delta.hpp"
 
+rtx::Cylinder::Cylinder()
+    : APrimitive(Vector3d(0, 0, 0), Color(0, 0, 0)), _position(Vector3d(0, 0, 0)), _axis((Vector3d(1, 0, 0))), _radius(0)
+{
+}
+
 rtx::Cylinder::Cylinder(Color color, Vector3d position, Vector3d axis, double radius)
     : APrimitive(position, color), _position(position), _axis(axis.normalized()), _radius(radius)
 {

@@ -1,6 +1,10 @@
 #include "Triangle.hpp"
 #include <cmath>
 
+rtx::Triangle::Triangle()
+    : APrimitive(Vector3d(0, 0, 0), Color(0, 0, 0)), _p1(Vector3d(0, 0, 0)), _p2(Vector3d(0, 0, 0)), _p3(Vector3d(0, 0, 0))
+{}
+
 rtx::Triangle::Triangle(Color color, Vector3d p1, Vector3d p2, Vector3d p3)
     : APrimitive((p1 + p2 + p3) / 3.0, color), _p1(p1), _p2(p2), _p3(p3)
 {}

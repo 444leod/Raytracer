@@ -8,6 +8,11 @@
 #include "LimitedCone.hpp"
 #include "Delta.hpp"
 
+rtx::LimitedCone::LimitedCone()
+    : APrimitive(Vector3d(0, 0, 0), Color(0, 0, 0)), _apex(Vector3d(0, 0, 0)), _axis((Vector3d(1, 0, 0)).normalized()), _theta(0), _height(0)
+{
+}
+
 rtx::LimitedCone::LimitedCone(Color color, Vector3d apex, Vector3d axis, double theta, double height)
     : APrimitive(apex, color), _apex(apex), _axis(axis.normalized()), _theta(theta), _height(height)
 {

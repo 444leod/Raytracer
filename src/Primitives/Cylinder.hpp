@@ -12,12 +12,14 @@
 namespace rtx {
     class Cylinder : public APrimitive {
         public:
-            Cylinder() = delete;
+            Cylinder();
             Cylinder(Color color, Vector3d position, Vector3d axis, double radius);
             ~Cylinder() = default;
 
             double radius() const { return _radius; }
             virtual std::optional<HitResult> hits(const Ray& ray) const;
+            void setRadius(const double& radius) { this->_radius = radius; }
+            void setAxis(const Vector3d& axis) { this->_axis = axis.normalized(); }
 
         protected:
         private:
