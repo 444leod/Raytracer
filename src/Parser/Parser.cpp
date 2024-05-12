@@ -26,37 +26,9 @@ void rtx::Parser::runParser(std::string fileName)
         iss >> key;
         if (key == "camera:") {
             _currentlyParsing = PARSABLE::CAMERA;
-        } else if (key == "sphere:") {
-            _primitives.push_back(std::make_shared<rtx::Sphere>());
-            _currentlyParsing = PARSABLE::SPHERE;
-        } else if (key == "pointLight:") {
-            _lights.push_back(std::make_shared<PointLight>());
-            _currentlyParsing = PARSABLE::POINTLIGHT;
-        } else if (key == "directionalLight:") {
-            _lights.push_back(std::make_shared<DirectionalLight>());
-            _currentlyParsing = PARSABLE::DIRLIGHT;
-        } else if (key == "ambiantLight:") {
-            _lights.push_back(std::make_shared<AmbiantLight>());
-            _currentlyParsing = PARSABLE::AMBLIGHT;
-        } else if (key == "plane:") {
-            _primitives.push_back(std::make_shared<rtx::Plane>());
-            _currentlyParsing = PARSABLE::PLANE;
-        } else if (key == "cone:") {
-            _primitives.push_back(std::make_shared<rtx::Cone>());
-            _currentlyParsing = PARSABLE::CONE;
-        } else if (key == "cylinder:") {
-            _primitives.push_back(std::make_shared<rtx::Cylinder>());
-            _currentlyParsing = PARSABLE::CYLINDER;
-        } else if (key == "limitedCone:") {
-            _primitives.push_back(std::make_shared<rtx::LimitedCone>());
-            _currentlyParsing = PARSABLE::LIMITEDCONE;
-        } else if (key == "limitedCylinder:") {
-            _primitives.push_back(std::make_shared<rtx::LimitedCylinder>());
-            _currentlyParsing = PARSABLE::LIMITEDCYLINDER;
-        } else if (key == "triangle:") {
-            _primitives.push_back(std::make_shared<rtx::Triangle>());
-            _currentlyParsing = PARSABLE::TRIANGLE;
         }
+        _primitiveFactory.tryCreateIPrimitive(key, _currentlyParsing, _primitives);
+        _lightFactory.tryCreateILight(key, _currentlyParsing, _lights);
         switch (_currentlyParsing) {
             case PARSABLE::CAMERA: parseCamera(iss, key); break;
             case PARSABLE::SPHERE: parseSphere(iss, key); break;

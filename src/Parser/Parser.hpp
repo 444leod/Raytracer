@@ -10,17 +10,9 @@
 #include <sstream>
 #include <fstream>
 
+#include "IPrimitiveFactory.hpp"
+#include "ILightFactory.hpp"
 #include "Camera.hpp"
-#include "Sphere.hpp"
-#include "Plane.hpp"
-#include "PointLight.hpp"
-#include "DirectionalLight.hpp"
-#include "AmbiantLight.hpp"
-#include "Cone.hpp"
-#include "Cylinder.hpp"
-#include "LimitedCone.hpp"
-#include "LimitedCylinder.hpp"
-#include "Triangle.hpp"
 
 #pragma once
 
@@ -33,21 +25,6 @@ namespace rtx {
             std::vector<std::shared_ptr<rtx::IPrimitive>> getPrimitives() const;
             std::vector<std::shared_ptr<rtx::ILight>> getLights() const;
             rtx::Camera getCamera() const;
-
-            enum PARSABLE {
-                NONE,
-                SPHERE,
-                CAMERA,
-                POINTLIGHT,
-                DIRLIGHT,
-                AMBLIGHT,
-                PLANE,
-                CONE,
-                CYLINDER,
-                LIMITEDCONE,
-                LIMITEDCYLINDER,
-                TRIANGLE
-            };
 
             class ParserException : public std::exception {
                 public:
@@ -68,8 +45,9 @@ namespace rtx {
             std::vector<std::shared_ptr<rtx::IPrimitive>> _primitives;
             std::vector<std::shared_ptr<rtx::ILight>> _lights;
             rtx::Camera _camera = rtx::Camera(rtx::RenderSettings(1080, 720, M_PI_2), Vector3d(), Vector3d());
-            std::string _rest;
-            PARSABLE _currentlyParsing = PARSABLE::NONE;
+            rtx::IPrimitiveFactory _primitiveFactory;
+            rtx::ILightFactory _lightFactory;
+            rtx::PARSABLE _currentlyParsing = rtx::PARSABLE::NONE;
 
             void verifyEqual(std::string equal);
             void parseSphere(std::istringstream &iss, std::string key);
