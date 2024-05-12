@@ -1,3 +1,8 @@
+camera:
+resolution = 1080 720
+position = 0 0 0
+rotation = 0 0 0
+fov = 90
 sphere:
 color = 100 255 100
 position = 15 5 0

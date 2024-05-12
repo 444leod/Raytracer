@@ -61,16 +61,17 @@ int main(
             std::string filename;
             std::cout << "Enter filename for scene: ";
             std::cin >> filename;
+            parser.reset();
             try {
                 parser.runParser(filename);
             } catch (rtx::Parser::ParserException &e) {
                 std::cerr << e.what() << std::endl;
-                return 84;
+                continue;
             }
             scene.loadNewScene(parser.getPrimitives(), parser.getLights());
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-            scene.reset();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+            parser.reset(); scene.reset(); }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             image.clear(); scene.camera().move(rtx::Vector3d(.0, .0, .1)); }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {

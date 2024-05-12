@@ -421,3 +421,10 @@ rtx::Camera rtx::Parser::getCamera() const
 {
     return _camera;
 }
+
+void rtx::Parser::reset()
+{
+    _primitives.clear();
+    _lights.clear();
+    _currentlyParsing = rtx::PARSABLE::NONE;
+}

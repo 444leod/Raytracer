@@ -25,6 +25,7 @@ namespace rtx {
             std::vector<std::shared_ptr<rtx::IPrimitive>> getPrimitives() const;
             std::vector<std::shared_ptr<rtx::ILight>> getLights() const;
             rtx::Camera getCamera() const;
+            void reset();
 
             class ParserException : public std::exception {
                 public:
