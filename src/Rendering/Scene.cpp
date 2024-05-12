@@ -6,6 +6,8 @@
 */
 
 #include "Scene.hpp"
+#include "ILight.hpp"
+#include "IPrimitive.hpp"
 #include <thread>
 
 rtx::Scene::Scene(Camera& camera, std::vector<std::shared_ptr<IPrimitive>> primitives, std::vector<std::shared_ptr<ILight>> lights)
@@ -115,4 +117,18 @@ double rtx::Scene::enlightment(const HitResult& hit) const
         if (f > 0) intensity += f;
     }
     return intensity;
+}
+
+void rtx::Scene::loadNewScene(std::vector<std::shared_ptr<rtx::IPrimitive>> primitives, std::vector<std::shared_ptr<rtx::ILight>> lights)
+{
+    for (const auto& prim : primitives)
+        this->_primitives.push_back(prim);
+    for (const auto& light : lights)
+        this->_lights.push_back(light);
+}
+
+void rtx::Scene::reset()
+{
+    this->_primitives.clear();
+    this->_lights.clear();
 }
