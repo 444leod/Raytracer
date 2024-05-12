@@ -22,8 +22,8 @@ sphere:
 color = 255 0 0
 position = 7 5 1
 radius = 1.75
-cylinder:
-color = 100 100 100
-position = 5 5 5
-radius = 1
-axis = 0 0 1
+cone:
+color = 255 255 0
+apex = 5 0 5
+axis = 0 1 0
+theta = 0.8
