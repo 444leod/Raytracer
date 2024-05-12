@@ -19,14 +19,18 @@ Launch the program by using
 ## Configuration File
 Configuration file explication are in the HowToConfig File
 
+## Load a New Scene from a file
+Press the `N` key to Load a new scene.
+A prompt appear in the terminal to write the name of the input file wich represent the new scene
+
 ## Controls
 
 - Use the `Z`, `Q`, `S`, and `D` keys to move the camera forwards, leftwards, backwards, and rightwards, respectively.
 - Use the left and right arrow keys to change the field of view.
 - Use the `Space` key to move upwards and `Left Shift` to move downwards.
+- Use the `R` key to reload a scene
 
 ## Light
-
 
 ## Geometric Shapes
 
