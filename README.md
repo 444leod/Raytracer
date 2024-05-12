@@ -25,6 +25,9 @@ Configuration file explication are in the HowToConfig File
 - Use the left and right arrow keys to change the field of view.
 - Use the `Space` key to move upwards and `Left Shift` to move downwards.
 
+## Light
+
+
 ## Geometric Shapes
 
 ### Sphere
@@ -36,6 +39,7 @@ A sphere is defined by its position in space and radius. The intersection betwee
 A cone is defined by its apex, axis, and an angle describing the cone's opening. The intersection between a ray and a cone is calculated by solving a quadratic equation.
 
 ### Limited Cone
+
 A limited cone is similar to a regular cone but with a restricted height, effectively creating a truncated cone. It is defined by its apex, axis, angle describing the cone's opening, and height. The intersection between a ray and a limited cone is calculated by solving a quadratic equation, similar to the standard cone. However, after determining the intersection point, an additional check is performed to ensure that the intersection lies within the height limits of the cone.
 
 ### Cylinder
@@ -43,6 +47,7 @@ A limited cone is similar to a regular cone but with a restricted height, effect
 A cylinder is defined by its position, axis, and radius. The intersection between a ray and a cylinder is also calculated by solving a quadratic equation.
 
 ### Limited Cylinder
+
 A limited cylinder is similar to a regular cylinder but with a restricted height, creating a cylinder with capped ends. It is defined by its position, axis, radius, and height. The intersection between a ray and a limited cylinder is also calculated by solving a quadratic equation, similar to the standard cylinder. After finding the intersection point, an additional check is performed to ensure that the intersection lies within the height limits of the cylinder. This is done by calculating the projection of the intersection point onto the axis of the cylinder and verifying that it falls within the range of 0 to the height of the cylinder.
 
 ### Triangle
@@ -55,7 +60,9 @@ The scene is displayed using the SFML graphics library.
 
 ## Saving
 
-Press the `P` key to save the image to a PPM file. Please note that saving only works if all points of the image are loaded.
+Press the `P` key to save the image to a PPM file.
+A prompt appear in the terminal to write the name of the output file
+Please note that saving only works if all points of the image are loaded.
 
 
 ## Participants
