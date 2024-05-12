@@ -78,10 +78,18 @@ uint8_t *rtx::Image::array() const
 
 std::optional<std::uint32_t> rtx::Image::randindex()
 {
-    if (this->_unrendered_idx >= this->_unrendered.size())
+    static std::mutex mtx;
+    std::uint32_t idx;
+
+    mtx.lock();
+    if (this->_unrendered_idx >= this->_unrendered.size()) {
+        mtx.unlock();
         return std::nullopt;
+    }
     this->_unrendered_idx++;
-    return this->_unrendered.at(this->_unrendered_idx - 1);
+    idx = this->_unrendered.at(this->_unrendered_idx - 1);
+    mtx.unlock();
+    return idx;
 }
 
 void rtx::Image::trySave()
