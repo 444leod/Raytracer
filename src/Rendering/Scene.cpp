@@ -99,7 +99,7 @@ double rtx::Scene::enlightment(const HitResult& hit) const
     double intensity = .0;
 
     for (const auto& light : this->_lights) {
-        Vector3d dir = (light->position() - hit.point()).normalized();
+        auto dir = light->lightDirection(hit.point());
         bool obstructed = false;
         std::optional<HitResult> result;
 
@@ -111,7 +111,8 @@ double rtx::Scene::enlightment(const HitResult& hit) const
             obstructed = true;
             break;
         }
-        intensity += light->enlightement(hit, obstructed);
+        auto f = light->enlightement(hit, obstructed);
+        if (f > 0) intensity += f;
     }
     return intensity;
 }

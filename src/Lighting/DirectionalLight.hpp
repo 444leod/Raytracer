@@ -7,18 +7,20 @@
 
 #pragma once
 
-#include "ALight.hpp"
+#include "ILight.hpp"
 
 namespace rtx {
-    class DirectionalLight : public ALight {
+    class DirectionalLight : public ILight {
         public:
-            DirectionalLight();
-            DirectionalLight(const Vector3d& position, double strength, const Vector3d& direction);
+            DirectionalLight() = default;
+            DirectionalLight(const Vector3d& direction);
             ~DirectionalLight() = default;
 
+            const Vector3d& direction() const { return this->_direction; }
             void setDirection(const Vector3d& direction) { this->_direction = direction; }
 
             double enlightement(const HitResult& hit, bool obstructed) const;
+            Vector3d lightDirection(const Vector3d& point) const;
 
         protected:
         private:

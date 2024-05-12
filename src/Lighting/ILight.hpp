@@ -16,10 +16,11 @@ namespace rtx {
         public:
             virtual ~ILight() = default;
 
-            virtual const Vector3d& position() const = 0;
-            virtual double strength() const = 0;
-            virtual void setPosition(const Vector3d& position) = 0;
-            virtual void setStrength(double strength) = 0;
+            /**
+             * @brief Gets the direction at which a point was enligted.
+             * @param point The enlighted point.
+            */
+            virtual Vector3d lightDirection(const Vector3d& point) const = 0;
 
             /**
              * @brief Computes the resulted color of a `HitResult` enlighted
