@@ -26,19 +26,21 @@ void rtx::Parser::runParser(std::string fileName)
         iss >> key;
         if (key == "camera:") {
             _currentlyParsing = PARSABLE::CAMERA;
-        }
-        else if (key == "sphere:") {
+        } else if (key == "sphere:") {
             _primitives.push_back(std::make_shared<rtx::Sphere>());
             _currentlyParsing = PARSABLE::SPHERE;
-        }
-        else if (key == "light:") {
+        } else if (key == "light:") {
             _lights.push_back(Light());
             _currentlyParsing = PARSABLE::LIGHT;
+        } else if (key == "plane:") {
+            _primitives.push_back(std::make_shared<rtx::Plane>());
+            _currentlyParsing = PARSABLE::PLANE;
         }
         switch (_currentlyParsing) {
             case PARSABLE::CAMERA: parseCamera(iss, key); break;
             case PARSABLE::SPHERE: parseSphere(iss, key); break;
             case PARSABLE::LIGHT: parseLight(iss, key); break;
+            case PARSABLE::PLANE: parsePlane(iss, key); break;
             default: break;
         }
     }
@@ -133,6 +135,35 @@ void rtx::Parser::parseLight(std::istringstream &iss, std::string key)
             throw ParserException("Invalid syntax, strength expects a double");
         verifyEqual(equal);
         light.setStrength(strength);
+    }
+}
+
+void rtx::Parser::parsePlane(std::istringstream &iss, std::string key)
+{
+    std::string equal;
+    rtx::Plane& plane = dynamic_cast<rtx::Plane&>(*_primitives.back());
+
+    if (key == "position") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        plane.setPosition(Vector3d(x, y, z));
+    } else if (key == "normal") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, normal expects 3 doubles");
+        verifyEqual(equal);
+        plane.setNormal(Vector3d(x, y, z));
+    } else if (key == "color") {
+        std::uint32_t r = 0, g = 0, b = 0;
+        iss >> equal >> r >> g >> b;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, color expects 3 uint8_t");
+        verifyEqual(equal);
+        plane.setColor(Color(r, g, b));
     }
 }
 

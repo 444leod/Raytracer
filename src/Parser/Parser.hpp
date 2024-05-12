@@ -29,8 +29,8 @@ namespace rtx {
 
             enum PARSABLE {
                 NONE,
-                CAMERA,
                 SPHERE,
+                CAMERA,
                 LIGHT,
                 PLANE,
                 CONE,
@@ -66,5 +66,11 @@ namespace rtx {
             void parseSphere(std::istringstream &iss, std::string key);
             void parseCamera(std::istringstream& iss, std::string key);
             void parseLight(std::istringstream &iss, std::string key);
+            void parsePlane(std::istringstream &iss, std::string key);
+            void parseCone(std::istringstream &iss, std::string key);
+            void parseCylinder(std::istringstream &iss, std::string key);
+            void parseLimitedCone(std::istringstream &iss, std::string key);
+            void parseLimitedCylinder(std::istringstream &iss, std::string key);
+            void parseTriangle(std::istringstream &iss, std::string key);
     };
 }
