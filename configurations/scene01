@@ -2,6 +2,7 @@ camera:
 resolution = 1080 720
 position = 0 0 0
 rotation = 0 0 0
+fov = 70
 light:
 strength = 50.0
 position = 8 8 8
