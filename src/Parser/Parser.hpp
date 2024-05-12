@@ -13,7 +13,9 @@
 #include "Camera.hpp"
 #include "Sphere.hpp"
 #include "Plane.hpp"
-#include "Light.hpp"
+#include "PointLight.hpp"
+#include "DirectionalLight.hpp"
+#include "AmbiantLight.hpp"
 #include "Cone.hpp"
 #include "Cylinder.hpp"
 #include "LimitedCone.hpp"
@@ -29,14 +31,16 @@ namespace rtx {
             ~Parser() = default;
             void runParser(std::string file);
             std::vector<std::shared_ptr<rtx::IPrimitive>> getPrimitives() const;
-            std::vector<rtx::Light> getLights() const;
+            std::vector<std::shared_ptr<rtx::ILight>> getLights() const;
             rtx::Camera getCamera() const;
 
             enum PARSABLE {
                 NONE,
                 SPHERE,
                 CAMERA,
-                LIGHT,
+                POINTLIGHT,
+                DIRLIGHT,
+                AMBLIGHT,
                 PLANE,
                 CONE,
                 CYLINDER,
@@ -62,7 +66,7 @@ namespace rtx {
 
         private:
             std::vector<std::shared_ptr<rtx::IPrimitive>> _primitives;
-            std::vector<rtx::Light> _lights;
+            std::vector<std::shared_ptr<rtx::ILight>> _lights;
             rtx::Camera _camera = rtx::Camera(rtx::RenderSettings(1080, 720, M_PI_2), Vector3d(), Vector3d());
             std::string _rest;
             PARSABLE _currentlyParsing = PARSABLE::NONE;
@@ -70,7 +74,9 @@ namespace rtx {
             void verifyEqual(std::string equal);
             void parseSphere(std::istringstream &iss, std::string key);
             void parseCamera(std::istringstream& iss, std::string key);
-            void parseLight(std::istringstream &iss, std::string key);
+            void parsePointLight(std::istringstream &iss, std::string key);
+            void parseDirectionalLight(std::istringstream &iss, std::string key);
+            void parseAmbiantLight(std::istringstream &iss, std::string key);
             void parsePlane(std::istringstream &iss, std::string key);
             void parseCone(std::istringstream &iss, std::string key);
             void parseCylinder(std::istringstream &iss, std::string key);
