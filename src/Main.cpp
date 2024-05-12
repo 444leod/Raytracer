@@ -7,9 +7,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <string>
 #include <list>
 #include "Camera.hpp"
 #include "Scene.hpp"
+#include "Parser.hpp"
 
 int main(
     [[maybe_unused]] int ac,
@@ -17,9 +19,21 @@ int main(
     [[maybe_unused]] char **env
 )
 {
-    rtx::RenderSettings settings = rtx::RenderSettings(1080, 720, M_PI_2);
-    rtx::Camera cam = rtx::Camera(settings, rtx::Vector3d(), rtx::Vector3d(.0, .0, .0));
-    rtx::Scene scene(cam);
+    if (av[1] == nullptr || !std::string(av[1]).compare("--help")) {
+        std::cout << "USAGE: ./raytracer <SCENE_FILE>\n\tSCENE_FILE: scene configuration" << std::endl;
+        return 84;
+    }
+    rtx::Parser parser = rtx::Parser();
+    try {
+        parser.runParser(std::string(av[1]));
+    } catch (rtx::Parser::ParserException &e) {
+        std::cerr << e.what() << std::endl;
+        return 84;
+    }
+    
+    rtx::Camera cam = parser.getCamera();
+    rtx::RenderSettings settings = cam.settings();
+    rtx::Scene scene(cam, parser.getPrimitives(), parser.getLights());
 
     sf::RenderWindow win(settings.toSf(), "Window");
     rtx::Image image = rtx::Image(settings.width(), settings.height());
@@ -41,8 +55,12 @@ int main(
             image.clear(); scene.camera().move(rtx::Vector3d(.0, -.1, .0)); }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             image.clear(); scene.camera().move(rtx::Vector3d(.0, .1, .0)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+            image.clear(); scene.camera().move(rtx::Vector3d(.0, .0, .1)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
+            image.clear(); scene.camera().move(rtx::Vector3d(.0, .0, -.1)); }
 
-        scene.render(image, 5000);
+        scene.render(image, 20000);
         win.clear();
         win.draw(image.drawable());
         win.display();

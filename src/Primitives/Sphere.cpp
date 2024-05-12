@@ -7,6 +7,11 @@
 
 #include "Sphere.hpp"
 
+rtx::Sphere::Sphere()
+    : APrimitive(Vector3d(0, 0, 0), Color(255, 255, 255)), _radius(1.0)
+{
+}
+
 rtx::Sphere::Sphere(Color color, Vector3d position, double radius)
     : APrimitive(position, color), _radius(radius)
 {

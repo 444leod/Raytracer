@@ -6,17 +6,13 @@
 */
 
 #include "Scene.hpp"
+#include <thread>
 
-rtx::Scene::Scene(Camera& camera)
+rtx::Scene::Scene(Camera& camera, std::vector<std::shared_ptr<IPrimitive>> primitives, std::vector<Light> lights)
     : _camera(camera)
 {
-    //_primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 100), Vector3d(9, 0, 2.5), 0.5));
-    _primitives.push_back(std::make_shared<Sphere>(Color(100, 255, 100), Vector3d(5, -5, -1), 1.5));
-    _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 255), Vector3d(11, 0, 0), 2));
-    _primitives.push_back(std::make_shared<Sphere>(Color(255, 100, 100), Vector3d(7, 5, 1), 1.75));
-    _primitives.push_back(std::make_shared<Sphere>(Color(100, 100, 100), Vector3d(0, 0, -100002), 100000));
-
-    _lights.push_back(Light(Vector3d(8, 0, 8), 50.0));
+    _primitives = primitives;
+    _lights = lights;
 }
 
 rtx::Image rtx::Scene::render() const
@@ -46,21 +42,33 @@ rtx::Image& rtx::Scene::render(Image& image, std::uint32_t batch_size) const
     auto width = this->_camera.settings().width();
     auto height = this->_camera.settings().height();
 
-    for (std::uint32_t i = 0; i < batch_size; i++) {
-            auto idx = image.randindex();
-            if (!idx.has_value()) return image;
-            double w = idx.value() % width;
-            double h = idx.value() / width;
-            double u = w / static_cast <double>(width);
-            double v = h / static_cast <double>(height);
-            const Ray& ray = this->_camera.ray(u, v);
+    std::vector<std::thread> threads;
+    int num_threads = std::thread::hardware_concurrency();
 
-            auto hit = this->hitresult(ray);
-            if (!hit.has_value())
-                continue;
-            auto color = this->hitcolor(hit.value());
-            image.set(w, h, color);
+    for (int t = 0; t < num_threads; ++t) {
+        threads.emplace_back([&, t]() {
+            for (std::uint32_t i = t; i < batch_size - 1; i += num_threads) {
+                auto idx = image.randindex();
+                if (!idx.has_value()) return;
+                double w = idx.value() % width;
+                double h = idx.value() / width;
+                double u = w / static_cast <double>(width);
+                double v = h / static_cast <double>(height);
+                const Ray& ray = this->_camera.ray(u, v);
+
+                auto hit = this->hitresult(ray);
+                if (!hit.has_value())
+                    continue;
+                auto color = this->hitcolor(hit.value());
+                image.set(w, h, color);
+            }
+        });
     }
+
+    for (auto& thread : threads) {
+        thread.join();
+    }
+
     return image;
 }
 
@@ -74,12 +82,21 @@ rtx::Color rtx::Scene::hitcolor(const rtx::HitResult& hit) const
 
 std::optional<rtx::HitResult> rtx::Scene::hitresult(const rtx::Ray& ray) const
 {
+    std::vector<HitResult> hits;
     for (const auto& prim : this->_primitives) {
         auto hit = prim->hits(ray);
         if (hit.has_value())
-            return hit.value();
+            hits.push_back(hit.value());
     }
-    return std::nullopt;
+    if (hits.empty())
+        return std::nullopt;
+    std::pair<double, HitResult> min_hit = {std::numeric_limits<double>::max(), HitResult()};
+    for (const auto& hit : hits) {
+        double dist = (hit.point() - ray.origin()).size();
+        if (dist < min_hit.first)
+            min_hit = {dist, hit};
+    }
+    return min_hit.second;
 }
 
 rtx::Vector3d rtx::Scene::enlightment(const Vector3d& point) const

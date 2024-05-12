@@ -126,6 +126,14 @@ namespace rtx {
                 return Vector3<U>::fromMatrix(result);
             }
 
+            Vector3 cross(const Vector3& vector) const {
+                return Vector3(
+                    _y * vector._z - _z * vector._y,
+                    _z * vector._x - _x * vector._z,
+                    _x * vector._y - _y * vector._x
+                );
+            }
+
         protected:
         private:
             T _x = .0; // .0 so that the compiler knows it's double-sized

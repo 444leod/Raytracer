@@ -14,12 +14,14 @@
 #include "Camera.hpp"
 #include "Sphere.hpp"
 #include "Plane.hpp"
+#include "Cone.hpp"
+#include "Cylinder.hpp"
 #include "Light.hpp"
 
 namespace rtx {
     class Scene {
         public:
-            Scene(Camera& camera);
+            Scene(Camera& camera, std::vector<std::shared_ptr<IPrimitive>> primitives, std::vector<Light> lights);
             ~Scene() = default;
 
             const Camera& camera() const { return _camera; }
