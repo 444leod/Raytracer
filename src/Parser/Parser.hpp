@@ -11,7 +11,9 @@
 #include <fstream>
 
 #include "IPrimitiveFactory.hpp"
-#include "Light.hpp"
+#include "PointLight.hpp"
+#include "AmbiantLight.hpp"
+#include "DirectionalLight.hpp"
 #include "Camera.hpp"
 
 #pragma once
@@ -23,7 +25,7 @@ namespace rtx {
             ~Parser() = default;
             void runParser(std::string file);
             std::vector<std::shared_ptr<rtx::IPrimitive>> getPrimitives() const;
-            std::vector<rtx::Light> getLights() const;
+            std::vector<std::shared_ptr<rtx::ILight>> getLights() const;
             rtx::Camera getCamera() const;
 
             class ParserException : public std::exception {
@@ -43,7 +45,7 @@ namespace rtx {
 
         private:
             std::vector<std::shared_ptr<rtx::IPrimitive>> _primitives;
-            std::vector<rtx::Light> _lights;
+            std::vector<std::shared_ptr<rtx::ILight>> _lights;
             rtx::Camera _camera = rtx::Camera(rtx::RenderSettings(1080, 720, M_PI_2), Vector3d(), Vector3d());
             rtx::IPrimitiveFactory _primitiveFactory;
             rtx::PARSABLE _currentlyParsing = rtx::PARSABLE::NONE;
@@ -51,7 +53,9 @@ namespace rtx {
             void verifyEqual(std::string equal);
             void parseSphere(std::istringstream &iss, std::string key);
             void parseCamera(std::istringstream& iss, std::string key);
-            void parseLight(std::istringstream &iss, std::string key);
+            void parsePointLight(std::istringstream &iss, std::string key);
+            void parseDirectionalLight(std::istringstream &iss, std::string key);
+            void parseAmbiantLight(std::istringstream &iss, std::string key);
             void parsePlane(std::istringstream &iss, std::string key);
             void parseCone(std::istringstream &iss, std::string key);
             void parseCylinder(std::istringstream &iss, std::string key);

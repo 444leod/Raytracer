@@ -11,7 +11,6 @@
 #include "Camera.hpp"
 #include "Sphere.hpp"
 #include "Plane.hpp"
-#include "Light.hpp"
 #include "Cone.hpp"
 #include "Cylinder.hpp"
 #include "LimitedCone.hpp"
@@ -33,8 +32,6 @@ namespace rtx {
             std::map<std::string, rtx::PARSABLE> _primitiveMap {
                 {"sphere:", rtx::PARSABLE::SPHERE},
                 {"plane:", rtx::PARSABLE::PLANE},
-                {"light:", rtx::PARSABLE::LIGHT},
-                {"camera:", rtx::PARSABLE::CAMERA},
                 {"cone:", rtx::PARSABLE::CONE},
                 {"cylinder:", rtx::PARSABLE::CYLINDER},
                 {"limitedCone:", rtx::PARSABLE::LIMITEDCONE},

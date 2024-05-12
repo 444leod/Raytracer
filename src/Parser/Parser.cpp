@@ -26,15 +26,23 @@ void rtx::Parser::runParser(std::string fileName)
         iss >> key;
         if (key == "camera:") {
             _currentlyParsing = PARSABLE::CAMERA;
-        } else if (key == "light:") {
-            _lights.push_back(Light());
-            _currentlyParsing = PARSABLE::LIGHT;
+        } else if (key == "pointLight:") {
+            _lights.push_back(std::make_shared<PointLight>());
+            _currentlyParsing = PARSABLE::POINTLIGHT;
+        } else if (key == "directionalLight:") {
+            _lights.push_back(std::make_shared<DirectionalLight>());
+            _currentlyParsing = PARSABLE::DIRLIGHT;
+        } else if (key == "ambiantLight:") {
+            _lights.push_back(std::make_shared<AmbiantLight>());
+            _currentlyParsing = PARSABLE::AMBLIGHT;
         }
         _primitiveFactory.tryCreateIPrimitive(key, _currentlyParsing, _primitives);
         switch (_currentlyParsing) {
             case PARSABLE::CAMERA: parseCamera(iss, key); break;
             case PARSABLE::SPHERE: parseSphere(iss, key); break;
-            case PARSABLE::LIGHT: parseLight(iss, key); break;
+            case PARSABLE::POINTLIGHT: parsePointLight(iss, key); break;
+            case PARSABLE::DIRLIGHT: parseDirectionalLight(iss, key); break;
+            case PARSABLE::AMBLIGHT: parseAmbiantLight(iss, key); break;
             case PARSABLE::PLANE: parsePlane(iss, key); break;
             case PARSABLE::CONE: parseCone(iss, key); break;
             case PARSABLE::CYLINDER: parseCylinder(iss, key); break;
@@ -116,10 +124,10 @@ void rtx::Parser::parseCamera(std::istringstream &iss, std::string key)
     }
 }
 
-void rtx::Parser::parseLight(std::istringstream &iss, std::string key)
+void rtx::Parser::parsePointLight(std::istringstream &iss, std::string key)
 {
     std::string equal;
-    Light& light = _lights.back();
+    rtx::PointLight& light = dynamic_cast<rtx::PointLight&>(*_lights.back());
 
     if (key == "position") {
         double x = 0, y = 0, z = 0;
@@ -129,12 +137,49 @@ void rtx::Parser::parseLight(std::istringstream &iss, std::string key)
         verifyEqual(equal);
         light.setPosition(Vector3d(x, y, z));
     } else if (key == "strength") {
-        double strength = 0;
-        iss >> equal >> strength;
+        double s = 0;
+        iss >> equal >> s;
         if (iss.fail())
-            throw ParserException("Invalid syntax, strength expects a double");
+            throw ParserException("Invalid syntax, position expects 3 doubles");
         verifyEqual(equal);
-        light.setStrength(strength);
+        light.setStrength(s);
+    }
+}
+
+void rtx::Parser::parseDirectionalLight(std::istringstream &iss, std::string key)
+{
+    std::string equal;
+    rtx::DirectionalLight& light = dynamic_cast<rtx::DirectionalLight&>(*_lights.back());
+
+    if (key == "direction") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        light.setDirection(Vector3d(x, y, z));
+    } else if (key == "strength") {
+        double s = 0;
+        iss >> equal >> s;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        light.setStrength(s);
+    }
+}
+
+void rtx::Parser::parseAmbiantLight(std::istringstream &iss, std::string key)
+{
+    std::string equal;
+    rtx::AmbiantLight& light = dynamic_cast<rtx::AmbiantLight&>(*_lights.back());
+
+    if (key == "strength") {
+        double s = 0;
+        iss >> equal >> s;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        light.setStrength(s);
     }
 }
 
@@ -375,7 +420,7 @@ std::vector<std::shared_ptr<rtx::IPrimitive>> rtx::Parser::getPrimitives() const
     return _primitives;
 }
 
-std::vector<rtx::Light> rtx::Parser::getLights() const
+std::vector<std::shared_ptr<rtx::ILight>> rtx::Parser::getLights() const
 {
     return _lights;
 }
