@@ -1,5 +1,7 @@
 # Guide on the config syntax for the raytracer
 
+## Syntax:
+
 camera:
 resolution = uint uint
 position = double double double
@@ -51,3 +53,9 @@ color = uint8 uint8 uint8 (0 to 255)
 vertex1 = double double double
 vertex2 = double double double
 vertex3 = double double double
+
+## additional notes:
+- names are case sensitive and must be spelled exactly as shown
+- all values must be separated by a space
+- all values must be on the same line
+- the names must be DIRECTLY followed by a colon
