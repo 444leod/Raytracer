@@ -18,6 +18,8 @@ namespace rtx {
 
             double radius() const { return _radius; }
             virtual std::optional<HitResult> hits(const Ray& ray) const;
+            void setRadius(const double& radius) { this->_radius = radius; }
+            void setAxis(const Vector3d& axis) { this->_axis = axis; }
 
         protected:
         private:

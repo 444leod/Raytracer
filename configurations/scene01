@@ -28,3 +28,8 @@ color = 255 0 255
 apex = 9 0 9
 axis = 0 0 1
 theta = 0.5
+cylinder:
+color = 255 255 0
+position = 5 5 5
+axis = 1 1 1
+radius = 1

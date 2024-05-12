@@ -38,6 +38,18 @@ void rtx::Parser::runParser(std::string fileName)
         } else if (key == "cone:") {
             _primitives.push_back(std::make_shared<rtx::Cone>());
             _currentlyParsing = PARSABLE::CONE;
+        } else if (key == "cylinder") {
+            _primitives.push_back(std::make_shared<rtx::Cylinder>());
+            _currentlyParsing = PARSABLE::CYLINDER;
+        } else if (key == "limitedCone") {
+            _primitives.push_back(std::make_shared<rtx::LimitedCone>());
+            _currentlyParsing = PARSABLE::LIMITEDCONE;
+        } else if (key == "limitedCylinder") {
+            _primitives.push_back(std::make_shared<rtx::LimitedCylinder>());
+            _currentlyParsing = PARSABLE::LIMITEDCYLINDER;
+        } else if (key == "triangle") {
+            _primitives.push_back(std::make_shared<rtx::Triangle>());
+            _currentlyParsing = PARSABLE::TRIANGLE;
         }
         switch (_currentlyParsing) {
             case PARSABLE::CAMERA: parseCamera(iss, key); break;
@@ -45,6 +57,7 @@ void rtx::Parser::runParser(std::string fileName)
             case PARSABLE::LIGHT: parseLight(iss, key); break;
             case PARSABLE::PLANE: parsePlane(iss, key); break;
             case PARSABLE::CONE: parseCone(iss, key); break;
+            case PARSABLE::CYLINDER: parseCylinder(iss, key); break;
             default: break;
         }
     }
@@ -205,6 +218,43 @@ void rtx::Parser::parseCone(std::istringstream &iss, std::string key)
         verifyEqual(equal);
         cone.setTheta(theta);
     }
+}
+
+void rtx::Parser::parseCylinder(std::istringstream &iss, std::string key)
+{
+    std::string equal;
+    rtx::Cylinder& cylinder = dynamic_cast<rtx::Cylinder&>(*_primitives.back());
+
+    if (key == "color") {
+        std::uint32_t r = 0, g = 0, b = 0;
+        iss >> equal >> r >> g >> b;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, color expects 3 uint8_t");
+        verifyEqual(equal);
+        cylinder.setColor(Color(r, g, b));
+    } else if (key == "position") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        cylinder.setPosition(Vector3d(x, y, z));
+    } else if (key == "axis") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, axis expects 3 doubles");
+        verifyEqual(equal);
+        cylinder.setAxis(Vector3d(x, y, z));
+    } else if (key == "radius") {
+        double radius = 0;
+        iss >> equal >> radius;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, radius expects a double");
+        verifyEqual(equal);
+        cylinder.setRadius(radius);
+    }
+
 }
 
 std::vector<std::shared_ptr<rtx::IPrimitive>> rtx::Parser::getPrimitives() const
