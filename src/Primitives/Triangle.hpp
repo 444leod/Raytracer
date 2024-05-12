@@ -12,6 +12,9 @@ namespace rtx {
         ~Triangle() = default;
 
         virtual std::optional<HitResult> hits(const Ray& ray) const override;
+        void setP1(const Vector3d& p1) { this->_p1 = p1; }
+        void setP2(const Vector3d& p2) { this->_p2 = p2; }
+        void setP3(const Vector3d& p3) { this->_p3 = p3; }
 
     private:
         Vector3d _p1;

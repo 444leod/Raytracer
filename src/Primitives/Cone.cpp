@@ -9,7 +9,7 @@
 #include "Delta.hpp"
 
 rtx::Cone::Cone()
-    : APrimitive(Vector3d(0, 0, 0), Color(0, 0, 0)), _apex(Vector3d(0, 0, 0)), _axis(Vector3d(0, 0, 0)), _theta(0)
+    : APrimitive(Vector3d(0, 0, 0), Color(0, 0, 0)), _apex(Vector3d(0, 0, 0)), _axis((Vector3d(1, 0, 0)).normalized()), _theta(0)
 {
 }
 

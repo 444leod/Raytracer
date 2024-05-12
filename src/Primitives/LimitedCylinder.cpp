@@ -9,7 +9,7 @@
 #include "Delta.hpp"
 
 rtx::LimitedCylinder::LimitedCylinder()
-    : APrimitive(Vector3d(0, 0, 0), Color(0, 0, 0)), _position(Vector3d(0, 0, 0)), _axis(Vector3d(0, 0, 0)), _radius(0), _height(0)
+    : APrimitive(Vector3d(0, 0, 0), Color(0, 0, 0)), _position(Vector3d(0, 0, 0)), _axis((Vector3d(1, 0, 0).normalized())), _radius(0), _height(0)
 {
 }
 
