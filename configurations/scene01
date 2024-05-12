@@ -22,8 +22,9 @@ sphere:
 color = 255 0 0
 position = 7 5 1
 radius = 1.75
-cone:
-color = 255 255 0
-apex = 5 0 5
-axis = 0 1 0
-theta = 0.8
+
+triangle:
+color = 100 100 255
+vertex1 = 0 8 0
+vertex2 = 0 8 8
+vertex3 = 0 0 8

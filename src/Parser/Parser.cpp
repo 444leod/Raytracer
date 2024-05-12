@@ -60,6 +60,7 @@ void rtx::Parser::runParser(std::string fileName)
             case PARSABLE::CYLINDER: parseCylinder(iss, key); break;
             case PARSABLE::LIMITEDCONE: parseLimitedCone(iss, key); break;
             case PARSABLE::LIMITEDCYLINDER: parseLimitedCylinder(iss, key); break;
+            case PARSABLE::TRIANGLE: parseTriangle(iss, key); break;
             default: break;
         }
     }
@@ -342,6 +343,42 @@ void rtx::Parser::parseLimitedCylinder(std::istringstream &iss, std::string key)
             throw ParserException("Invalid syntax, height expects a double");
         verifyEqual(equal);
         limitedCylinder.setHeight(height);
+    }
+}
+
+void rtx::Parser::parseTriangle(std::istringstream &iss, std::string key)
+{
+    std::string equal;
+    rtx::Triangle& triangle = dynamic_cast<rtx::Triangle&>(*_primitives.back());
+
+    if (key == "color") {
+        std::uint32_t r = 0, g = 0, b = 0;
+        iss >> equal >> r >> g >> b;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, color expects 3 uint8_t");
+        verifyEqual(equal);
+        triangle.setColor(Color(r, g, b));
+    } else if (key == "vertex1") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, vertex1 expects 3 doubles");
+        verifyEqual(equal);
+        triangle.setP1(Vector3d(x, y, z));
+    } else if (key == "vertex2") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, vertex2 expects 3 doubles");
+        verifyEqual(equal);
+        triangle.setP2(Vector3d(x, y, z));
+    } else if (key == "vertex3") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, vertex3 expects 3 doubles");
+        verifyEqual(equal);
+        triangle.setP3(Vector3d(x, y, z));
     }
 }
 
