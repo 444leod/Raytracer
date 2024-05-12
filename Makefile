@@ -11,6 +11,7 @@ SRC	:=	src/Main.cpp	\
 		src/Maths/Ray.cpp	\
 		src/Maths/Delta.cpp \
 		src/Parser/Parser.cpp	\
+		src/Parser/IPrimitiveFactory.cpp	\
 		src/Rendering/Image.cpp	\
 		src/Rendering/Camera.cpp	\
 		src/Rendering/Scene.cpp	\

@@ -26,31 +26,26 @@ void rtx::Parser::runParser(std::string fileName)
         iss >> key;
         if (key == "camera:") {
             _currentlyParsing = PARSABLE::CAMERA;
-        } else if (key == "sphere:") {
-            _primitives.push_back(std::make_shared<rtx::Sphere>());
-            _currentlyParsing = PARSABLE::SPHERE;
         } else if (key == "light:") {
             _lights.push_back(Light());
             _currentlyParsing = PARSABLE::LIGHT;
+        } else if (key == "sphere:") {
+            _currentlyParsing = PARSABLE::SPHERE;
         } else if (key == "plane:") {
-            _primitives.push_back(std::make_shared<rtx::Plane>());
             _currentlyParsing = PARSABLE::PLANE;
         } else if (key == "cone:") {
-            _primitives.push_back(std::make_shared<rtx::Cone>());
             _currentlyParsing = PARSABLE::CONE;
         } else if (key == "cylinder:") {
-            _primitives.push_back(std::make_shared<rtx::Cylinder>());
             _currentlyParsing = PARSABLE::CYLINDER;
         } else if (key == "limitedCone:") {
-            _primitives.push_back(std::make_shared<rtx::LimitedCone>());
             _currentlyParsing = PARSABLE::LIMITEDCONE;
         } else if (key == "limitedCylinder:") {
-            _primitives.push_back(std::make_shared<rtx::LimitedCylinder>());
             _currentlyParsing = PARSABLE::LIMITEDCYLINDER;
         } else if (key == "triangle:") {
-            _primitives.push_back(std::make_shared<rtx::Triangle>());
             _currentlyParsing = PARSABLE::TRIANGLE;
         }
+        std::cout << _currentlyParsing << std::endl;
+        _primitiveFactory.createIPrimitive(_currentlyParsing, _primitives);
         switch (_currentlyParsing) {
             case PARSABLE::CAMERA: parseCamera(iss, key); break;
             case PARSABLE::SPHERE: parseSphere(iss, key); break;
