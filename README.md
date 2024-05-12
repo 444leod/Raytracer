@@ -19,14 +19,29 @@ Launch the program by using
 ## Configuration File
 Configuration file explication are in the HowToConfig File
 
+## Load a New Scene from a file
+Press the `N` key to Load a new scene.
+A prompt appear in the terminal to write the name of the input file wich represent the new scene
+
 ## Controls
 
 - Use the `Z`, `Q`, `S`, and `D` keys to move the camera forwards, leftwards, backwards, and rightwards, respectively.
 - Use the left and right arrow keys to change the field of view.
 - Use the `Space` key to move upwards and `Left Shift` to move downwards.
+- Use the `R` key to reload a scene
 
 ## Light
+### Ambiant Light
 
+Take a strength wich is the intensity of the light give a minimum light to any point of the scene
+
+### Directional Light
+
+Take a strength and a direction to set a light that will illuminate a whole line
+
+### Point Light
+
+Take a strength and a position to set a light at the given position that will launch many ray from the point
 
 ## Geometric Shapes
 
