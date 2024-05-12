@@ -11,9 +11,7 @@
 #include <fstream>
 
 #include "IPrimitiveFactory.hpp"
-#include "PointLight.hpp"
-#include "AmbiantLight.hpp"
-#include "DirectionalLight.hpp"
+#include "ILightFactory.hpp"
 #include "Camera.hpp"
 
 #pragma once
@@ -48,6 +46,7 @@ namespace rtx {
             std::vector<std::shared_ptr<rtx::ILight>> _lights;
             rtx::Camera _camera = rtx::Camera(rtx::RenderSettings(1080, 720, M_PI_2), Vector3d(), Vector3d());
             rtx::IPrimitiveFactory _primitiveFactory;
+            rtx::ILightFactory _lightFactory;
             rtx::PARSABLE _currentlyParsing = rtx::PARSABLE::NONE;
 
             void verifyEqual(std::string equal);

@@ -26,17 +26,9 @@ void rtx::Parser::runParser(std::string fileName)
         iss >> key;
         if (key == "camera:") {
             _currentlyParsing = PARSABLE::CAMERA;
-        } else if (key == "pointLight:") {
-            _lights.push_back(std::make_shared<PointLight>());
-            _currentlyParsing = PARSABLE::POINTLIGHT;
-        } else if (key == "directionalLight:") {
-            _lights.push_back(std::make_shared<DirectionalLight>());
-            _currentlyParsing = PARSABLE::DIRLIGHT;
-        } else if (key == "ambiantLight:") {
-            _lights.push_back(std::make_shared<AmbiantLight>());
-            _currentlyParsing = PARSABLE::AMBLIGHT;
         }
         _primitiveFactory.tryCreateIPrimitive(key, _currentlyParsing, _primitives);
+        _lightFactory.tryCreateILight(key, _currentlyParsing, _lights);
         switch (_currentlyParsing) {
             case PARSABLE::CAMERA: parseCamera(iss, key); break;
             case PARSABLE::SPHERE: parseSphere(iss, key); break;
