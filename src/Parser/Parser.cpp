@@ -29,9 +29,15 @@ void rtx::Parser::runParser(std::string fileName)
         } else if (key == "sphere:") {
             _primitives.push_back(std::make_shared<rtx::Sphere>());
             _currentlyParsing = PARSABLE::SPHERE;
-        } else if (key == "pointlight:") {
+        } else if (key == "pointLight:") {
             _lights.push_back(std::make_shared<PointLight>());
-            _currentlyParsing = PARSABLE::LIGHT;
+            _currentlyParsing = PARSABLE::POINTLIGHT;
+        } else if (key == "directionalLight:") {
+            _lights.push_back(std::make_shared<DirectionalLight>());
+            _currentlyParsing = PARSABLE::DIRLIGHT;
+        } else if (key == "ambiantLight:") {
+            _lights.push_back(std::make_shared<AmbiantLight>());
+            _currentlyParsing = PARSABLE::AMBLIGHT;
         } else if (key == "plane:") {
             _primitives.push_back(std::make_shared<rtx::Plane>());
             _currentlyParsing = PARSABLE::PLANE;
@@ -54,7 +60,9 @@ void rtx::Parser::runParser(std::string fileName)
         switch (_currentlyParsing) {
             case PARSABLE::CAMERA: parseCamera(iss, key); break;
             case PARSABLE::SPHERE: parseSphere(iss, key); break;
-            case PARSABLE::LIGHT: parsePointLight(iss, key); break;
+            case PARSABLE::POINTLIGHT: parsePointLight(iss, key); break;
+            case PARSABLE::DIRLIGHT: parseDirectionalLight(iss, key); break;
+            case PARSABLE::AMBLIGHT: parseAmbiantLight(iss, key); break;
             case PARSABLE::PLANE: parsePlane(iss, key); break;
             case PARSABLE::CONE: parseCone(iss, key); break;
             case PARSABLE::CYLINDER: parseCylinder(iss, key); break;
@@ -148,13 +156,6 @@ void rtx::Parser::parsePointLight(std::istringstream &iss, std::string key)
             throw ParserException("Invalid syntax, position expects 3 doubles");
         verifyEqual(equal);
         light.setPosition(Vector3d(x, y, z));
-    } else if (key == "strength") {
-        double strength = 0;
-        iss >> equal >> strength;
-        if (iss.fail())
-            throw ParserException("Invalid syntax, strength expects a double");
-        verifyEqual(equal);
-        light.setStrength(strength);
     }
 }
 
@@ -163,27 +164,28 @@ void rtx::Parser::parseDirectionalLight(std::istringstream &iss, std::string key
     std::string equal;
     rtx::DirectionalLight& light = dynamic_cast<rtx::DirectionalLight&>(*_lights.back());
 
-    if (key == "position") {
-        double x = 0, y = 0, z = 0;
-        iss >> equal >> x >> y >> z;
-        if (iss.fail())
-            throw ParserException("Invalid syntax, position expects 3 doubles");
-        verifyEqual(equal);
-        light.setPosition(Vector3d(x, y, z));
-    } else if (key == "strength") {
-        double strength = 0;
-        iss >> equal >> strength;
-        if (iss.fail())
-            throw ParserException("Invalid syntax, strength expects a double");
-        verifyEqual(equal);
-        light.setStrength(strength);
-    } else if (key == "direction") {
+    if (key == "direction") {
         double x = 0, y = 0, z = 0;
         iss >> equal >> x >> y >> z;
         if (iss.fail())
             throw ParserException("Invalid syntax, position expects 3 doubles");
         verifyEqual(equal);
         light.setDirection(Vector3d(x, y, z));
+    }
+}
+
+void rtx::Parser::parseAmbiantLight(std::istringstream &iss, std::string key)
+{
+    std::string equal;
+    rtx::AmbiantLight& light = dynamic_cast<rtx::AmbiantLight&>(*_lights.back());
+
+    if (key == "strength") {
+        double s = 0;
+        iss >> equal >> s;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        light.setStrength(s);
     }
 }
 

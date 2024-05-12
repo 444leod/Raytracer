@@ -23,6 +23,7 @@ SRC	:=	src/Main.cpp	\
 		src/Primitives/LimitedCone.cpp \
 		src/Lighting/PointLight.cpp	\
 		src/Lighting/DirectionalLight.cpp	\
+		src/Lighting/AmbiantLight.cpp	\
 
 OBJ	:=	$(SRC:.cpp=.o)
 
