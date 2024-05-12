@@ -27,6 +27,7 @@ namespace rtx {
             std::uint32_t height() const;
             uint8_t *array() const;
             std::optional<std::uint32_t> randindex();
+            void trySave();
 
         protected:
         private:

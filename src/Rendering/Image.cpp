@@ -7,6 +7,9 @@
 
 #include "Image.hpp"
 #include <mutex>
+#include <iostream>
+#include <sstream>
+#include <fstream>
 
 rtx::Image::Image(std::uint32_t width, std::uint32_t height)
     : _width(width), _height(height)
@@ -79,4 +82,34 @@ std::optional<std::uint32_t> rtx::Image::randindex()
         return std::nullopt;
     this->_unrendered_idx++;
     return this->_unrendered.at(this->_unrendered_idx - 1);
+}
+
+void rtx::Image::trySave()
+{
+    if (this->_unrendered_idx != this->width() * this->height())
+        return;
+    auto img = sf::Image();
+    std::string filename;
+
+    std::cout << "Enter filename: ";
+    std::cin >> filename;
+    std::stringstream ss;
+    ss << filename << ".ppm";
+
+    std::ofstream file(ss.str());
+    if (!file) {
+        std::cerr << "Cannot open file for writing\n";
+        throw(std::runtime_error("Cannot open file for writing"));
+    }
+
+    file << "P3\n" << this->width() << " " << this->height() << "\n255\n";
+    for (uint32_t i = 0; i < this->width() * this->height(); i++)
+    {
+        file << static_cast<int>(this->_array[i * 4 + 0]) << " ";
+        file << static_cast<int>(this->_array[i * 4 + 1]) << " ";
+        file << static_cast<int>(this->_array[i * 4 + 2]) << " ";
+    }
+
+    file.close();
+    std::cout << "Image saved as " << ss.str() << std::endl;
 }
