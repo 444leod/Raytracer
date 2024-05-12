@@ -31,7 +31,13 @@ namespace rtx {
                 NONE,
                 CAMERA,
                 SPHERE,
-                LIGHT
+                LIGHT,
+                PLANE,
+                CONE,
+                CYLINDER,
+                LIMITEDCONE,
+                LIMITEDCYLINDER,
+                TRIANGLE
             };
 
             class ParserException : public std::exception {
