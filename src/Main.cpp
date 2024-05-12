@@ -55,6 +55,8 @@ int main(
             image.clear(); scene.camera().move(rtx::Vector3d(.0, -.1, .0)); }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             image.clear(); scene.camera().move(rtx::Vector3d(.0, .1, .0)); }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+            image.trySave();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             image.clear(); scene.camera().move(rtx::Vector3d(.0, .0, .1)); }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
