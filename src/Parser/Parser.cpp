@@ -204,6 +204,8 @@ void rtx::Parser::parseCone(std::istringstream &iss, std::string key)
         iss >> equal >> x >> y >> z;
         if (iss.fail())
             throw ParserException("Invalid syntax, apex expects 3 doubles");
+        if (z != 0)
+            throw ParserException("Cone can only me moved on the x and y axis");
         verifyEqual(equal);
         cone.setApex(Vector3d(x, y, z));
     } else if (key == "axis") {
@@ -211,6 +213,8 @@ void rtx::Parser::parseCone(std::istringstream &iss, std::string key)
         iss >> equal >> x >> y >> z;
         if (iss.fail())
             throw ParserException("Invalid syntax, axis expects 3 doubles");
+        if (x != 0 || y != 0)
+            throw ParserException("Cone can only be rotated on the z axis");
         verifyEqual(equal);
         cone.setAxis(Vector3d(x, y, z));
     } else if (key == "theta") {
@@ -277,6 +281,8 @@ void rtx::Parser::parseLimitedCone(std::istringstream &iss, std::string key)
         iss >> equal >> x >> y >> z;
         if (iss.fail())
             throw ParserException("Invalid syntax, apex expects 3 doubles");
+        if (z != 0)
+            throw ParserException("Cone can only me moved on the x and y axis");
         verifyEqual(equal);
         limitedCone.setApex(Vector3d(x, y, z));
     } else if (key == "axis") {
@@ -284,6 +290,8 @@ void rtx::Parser::parseLimitedCone(std::istringstream &iss, std::string key)
         iss >> equal >> x >> y >> z;
         if (iss.fail())
             throw ParserException("Invalid syntax, axis expects 3 doubles");
+        if (x != 0 || y != 0)
+            throw ParserException("Cone can only be rotated on the z axis");
         verifyEqual(equal);
         limitedCone.setAxis(Vector3d(x, y, z));
     } else if (key == "theta") {
