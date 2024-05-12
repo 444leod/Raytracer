@@ -31,6 +31,17 @@ A prompt appear in the terminal to write the name of the input file wich represe
 - Use the `R` key to reload a scene
 
 ## Light
+### Ambiant Light
+
+Take a strength wich is the intensity of the light give a minimum light to any point of the scene
+
+### Directional Light
+
+Take a strength and a direction to set a light that will illuminate a whole line
+
+### Point Light
+
+Take a strength and a position to set a light at the given position that will launch many ray from the point
 
 ## Geometric Shapes
 
