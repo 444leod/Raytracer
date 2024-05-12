@@ -82,12 +82,21 @@ rtx::Color rtx::Scene::hitcolor(const rtx::HitResult& hit) const
 
 std::optional<rtx::HitResult> rtx::Scene::hitresult(const rtx::Ray& ray) const
 {
+    std::vector<HitResult> hits;
     for (const auto& prim : this->_primitives) {
         auto hit = prim->hits(ray);
         if (hit.has_value())
-            return hit.value();
+            hits.push_back(hit.value());
     }
-    return std::nullopt;
+    if (hits.empty())
+        return std::nullopt;
+    std::pair<double, HitResult> min_hit = {std::numeric_limits<double>::max(), HitResult()};
+    for (const auto& hit : hits) {
+        double dist = (hit.point() - ray.origin()).size();
+        if (dist < min_hit.first)
+            min_hit = {dist, hit};
+    }
+    return min_hit.second;
 }
 
 rtx::Vector3d rtx::Scene::enlightment(const Vector3d& point) const
