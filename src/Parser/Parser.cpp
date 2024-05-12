@@ -29,23 +29,8 @@ void rtx::Parser::runParser(std::string fileName)
         } else if (key == "light:") {
             _lights.push_back(Light());
             _currentlyParsing = PARSABLE::LIGHT;
-        } else if (key == "sphere:") {
-            _currentlyParsing = PARSABLE::SPHERE;
-        } else if (key == "plane:") {
-            _currentlyParsing = PARSABLE::PLANE;
-        } else if (key == "cone:") {
-            _currentlyParsing = PARSABLE::CONE;
-        } else if (key == "cylinder:") {
-            _currentlyParsing = PARSABLE::CYLINDER;
-        } else if (key == "limitedCone:") {
-            _currentlyParsing = PARSABLE::LIMITEDCONE;
-        } else if (key == "limitedCylinder:") {
-            _currentlyParsing = PARSABLE::LIMITEDCYLINDER;
-        } else if (key == "triangle:") {
-            _currentlyParsing = PARSABLE::TRIANGLE;
         }
-        std::cout << _currentlyParsing << std::endl;
-        _primitiveFactory.createIPrimitive(_currentlyParsing, _primitives);
+        _primitiveFactory.createIPrimitive(key, _currentlyParsing, _primitives);
         switch (_currentlyParsing) {
             case PARSABLE::CAMERA: parseCamera(iss, key); break;
             case PARSABLE::SPHERE: parseSphere(iss, key); break;

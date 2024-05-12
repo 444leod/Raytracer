@@ -49,7 +49,6 @@ namespace rtx {
             rtx::PARSABLE _currentlyParsing = rtx::PARSABLE::NONE;
 
             void verifyEqual(std::string equal);
-            void 
             void parseSphere(std::istringstream &iss, std::string key);
             void parseCamera(std::istringstream& iss, std::string key);
             void parseLight(std::istringstream &iss, std::string key);
