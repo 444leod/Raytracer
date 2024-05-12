@@ -17,39 +17,11 @@ Launch the program by using
 ./raytracer [path to configuration file]
 
 ## Configuration File
-The configuration file must look like this 
-camera:
-resolution = [largeur] [hauteur]
-position = [x] [y] [z]
-rotation = [angle_x] [angle_y] [angle_z]
-fov = [angle_de_vue]
-light:
-strength = [force]
-position = [x] [y] [z]
-sphere:
-color = [rouge] [vert] [bleu]
-position = [x] [y] [z]
-radius = [rayon]
-cone:
-color = [rouge] [vert] [bleu]
-apex = [x] [y] [z]
-axis = [x] [y] [z]
-angle = [angle]
-cylinder:
-color = [rouge] [vert] [bleu]
-position = [x] [y] [z]
-axis = [x] [y] [z]
-radius = [rayon]
-triangle:
-color = [rouge] [vert] [bleu]
-vertex1 = [x] [y] [z]
-vertex2 = [x] [y] [z]
-vertex3 = [x] [y] [z]
-
+Configuration file explication are in the HowToConfig File
 
 ## Controls
 
-- Use the `Z`, `Q`, `S`, and `D` keys to move the camera upwards, leftwards, downwards, and rightwards, respectively.
+- Use the `Z`, `Q`, `S`, and `D` keys to move the camera forwards, leftwards, backwards, and rightwards, respectively.
 - Use the left and right arrow keys to change the field of view.
 - Use the `Space` key to move upwards and `Left Shift` to move downwards.
 
