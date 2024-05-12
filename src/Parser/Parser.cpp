@@ -54,7 +54,7 @@ void rtx::Parser::runParser(std::string fileName)
         switch (_currentlyParsing) {
             case PARSABLE::CAMERA: parseCamera(iss, key); break;
             case PARSABLE::SPHERE: parseSphere(iss, key); break;
-            case PARSABLE::LIGHT: parseLight(iss, key); break;
+            case PARSABLE::LIGHT: parsePointLight(iss, key); break;
             case PARSABLE::PLANE: parsePlane(iss, key); break;
             case PARSABLE::CONE: parseCone(iss, key); break;
             case PARSABLE::CYLINDER: parseCylinder(iss, key); break;
@@ -136,10 +136,10 @@ void rtx::Parser::parseCamera(std::istringstream &iss, std::string key)
     }
 }
 
-void rtx::Parser::parseLight(std::istringstream &iss, std::string key)
+void rtx::Parser::parsePointLight(std::istringstream &iss, std::string key)
 {
     std::string equal;
-    std::shared_ptr<ILight> light = _lights.back();
+    rtx::PointLight& light = dynamic_cast<rtx::PointLight&>(*_lights.back());
 
     if (key == "position") {
         double x = 0, y = 0, z = 0;
@@ -147,14 +147,43 @@ void rtx::Parser::parseLight(std::istringstream &iss, std::string key)
         if (iss.fail())
             throw ParserException("Invalid syntax, position expects 3 doubles");
         verifyEqual(equal);
-        light->setPosition(Vector3d(x, y, z));
+        light.setPosition(Vector3d(x, y, z));
     } else if (key == "strength") {
         double strength = 0;
         iss >> equal >> strength;
         if (iss.fail())
             throw ParserException("Invalid syntax, strength expects a double");
         verifyEqual(equal);
-        light->setStrength(strength);
+        light.setStrength(strength);
+    }
+}
+
+void rtx::Parser::parseDirectionalLight(std::istringstream &iss, std::string key)
+{
+    std::string equal;
+    rtx::DirectionalLight& light = dynamic_cast<rtx::DirectionalLight&>(*_lights.back());
+
+    if (key == "position") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        light.setPosition(Vector3d(x, y, z));
+    } else if (key == "strength") {
+        double strength = 0;
+        iss >> equal >> strength;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, strength expects a double");
+        verifyEqual(equal);
+        light.setStrength(strength);
+    } else if (key == "direction") {
+        double x = 0, y = 0, z = 0;
+        iss >> equal >> x >> y >> z;
+        if (iss.fail())
+            throw ParserException("Invalid syntax, position expects 3 doubles");
+        verifyEqual(equal);
+        light.setDirection(Vector3d(x, y, z));
     }
 }
 

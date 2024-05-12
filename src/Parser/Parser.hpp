@@ -14,6 +14,7 @@
 #include "Sphere.hpp"
 #include "Plane.hpp"
 #include "PointLight.hpp"
+#include "DirectionalLight.hpp"
 #include "Cone.hpp"
 #include "Cylinder.hpp"
 #include "LimitedCone.hpp"
@@ -70,7 +71,8 @@ namespace rtx {
             void verifyEqual(std::string equal);
             void parseSphere(std::istringstream &iss, std::string key);
             void parseCamera(std::istringstream& iss, std::string key);
-            void parseLight(std::istringstream &iss, std::string key);
+            void parsePointLight(std::istringstream &iss, std::string key);
+            void parseDirectionalLight(std::istringstream &iss, std::string key);
             void parsePlane(std::istringstream &iss, std::string key);
             void parseCone(std::istringstream &iss, std::string key);
             void parseCylinder(std::istringstream &iss, std::string key);
